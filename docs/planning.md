@@ -114,7 +114,7 @@ Estimasi: ~12-15 halaman
 1. Customer pesan → pilih "QRIS"
 2. App tampilkan gambar QRIS merchant
 3. Customer scan & bayar via app bank sendiri (di luar platform)
-4. Customer klik "Saya Sudah Bayar"
+4. Customer klik "Saya Sudah Dibayar"
 5. Merchant cek rekening → klik "Konfirmasi Pembayaran"
 
 **Syarat:** Jika merchant tidak upload QRIS → opsi QRIS tidak muncul, hanya COD.
@@ -141,11 +141,7 @@ Estimasi: ~12-15 halaman
 
 ## 0.6 Revenue Model Platform
 
-**Langganan bulanan (subscription) untuk merchant.**
-
-- Merchant bayar biaya bulanan untuk tampil di platform
-- Detail harga & tier belum ditentukan
-- Untuk MVP: **implementasi simpel** (status langganan aktif/tidak aktif)
+**Freemium SaaS:** Merchant mendapatkan 10 pesanan gratis setiap bulan. Jika melebihi kuota, merchant harus berlangganan (bayar ke Admin) atau menunggu hingga batas bulan di-reset.
 
 > *Detail implementasi ditentukan saat database schema.*
 
@@ -183,11 +179,11 @@ Customer pesan → Merchant terima/tolak → Diproses → Diantar → Selesai �
 | # | Fitur | Alasan |
 |---|-------|--------|
 | 1 | ❌ Payment gateway (Midtrans, Xendit) | Sudah pakai QRIS statis |
-| 2 | ❌ Real-time GPS tracking pengiriman | Butuh integrasi Maps, overkill |
-| 3 | ❌ Real-time chat (customer ↔ merchant) | Butuh WebSocket. Customer bisa hubungi via nomor HP merchant |
-| 4 | ❌ Push notification | Butuh service worker, cukup lihat status di dashboard |
+| 2 | ❌ Real-time GPS tracking pengiriman | Diganti Manual Status Tracking |
+| 3 | ⚠️ Real-time chat (customer ↔ merchant) | Masih dalam pertimbangan |
+| 4 | ⚠️ Push notification | Masih dalam pertimbangan |
 | 5 | ❌ Multi-bahasa (i18n) | Cukup Bahasa Indonesia |
-| 6 | ❌ Mobile app (native) | Web responsif sudah cukup |
+| 6 | ❌ Mobile app (native) / PWA | Akan dibangun sebagai PWA |
 | 7 | ❌ Sistem promo / kupon / diskon | Bukan fitur inti |
 | 8 | ❌ Auto-cancel pesanan (timeout) | Untuk MVP cukup manual |
 | 9 | ❌ Multiple alamat per customer | Cukup 1 alamat, bisa edit saat pesan |
@@ -196,12 +192,15 @@ Customer pesan → Merchant terima/tolak → Diproses → Diantar → Selesai �
 
 ## 0.9 Tech Stack
 
+## 0.9 Tech Stack
+
 - **Framework:** Next.js 16 (App Router)
 - **Styling:** Tailwind CSS v4
 - **Database:** Neon DB (PostgreSQL)
 - **Authentication:** Auth.js (NextAuth)
 - **Deployment:** Vercel
-- **ORM:** *Belum ditentukan (Prisma vs Drizzle)*
+- **ORM:** Prisma ORM
+- **Image/File Hosting:** Vercel Blob
 
 ---
 

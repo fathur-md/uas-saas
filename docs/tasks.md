@@ -48,9 +48,9 @@
 - [x] 0.5 — Tentukan batasan scope (apa yang TIDAK termasuk) ✅ 9 item dicoret
 - [x] 0.6 — Buat sitemap (daftar halaman + routing) ✅ Selesai, total 23 halaman terstruktur
 - [x] 0.7 — Brainstorm nama brand ✅ Dipilih: SiapSedia
-- [/] 0.8 — Tentukan tech stack *(Menunggu keputusan akhir tentang ORM)*
-- [ ] 0.9 — Desain database schema (tabel, relasi) → `database-schema.md`
-- [ ] 0.10 — Review akhir: semua docs lengkap & konsisten
+- [x] 0.8 — Tentukan tech stack ✅ Next.js 16, Tailwind v4, Prisma, Neon DB, Vercel Blob
+- [x] 0.9 — Desain database schema (tabel, relasi) → `database-schema.md` ✅ Selesai, tersimpan di prisma/schema.prisma
+- [x] 0.10 — Review akhir: semua docs lengkap & konsisten ✅ Fase 0 Selesai!
 
 ---
 
@@ -60,11 +60,11 @@
 > **Output:** Project berjalan di localhost, database terhubung.
 
 - [x] 1.1 — Inisialisasi project (framework) ✅ Next.js 16 & Tailwind v4 terinstal
-- [ ] 1.2 — Setup database & buat tabel
-- [ ] 1.3 — Setup environment variables
-- [ ] 1.4 — Setup design system (warna, font, layout dasar)
-- [ ] 1.5 — Buat layout/template utama (navbar, sidebar, footer)
-- [ ] 1.6 — Verifikasi: app jalan di localhost ✓
+- [x] 1.2 — Setup database & buat tabel ✅ Sinkronisasi Prisma db push berhasil
+- [x] 1.3 — Setup environment variables ✅ Prisma dev dan Neon DB ready
+- [x] 1.4 — Setup design system (warna, font, layout dasar) ✅ Selesai (Neutral Wireframe, Inter font)
+- [x] 1.5 — Buat layout/template utama (navbar, sidebar, footer) ✅ Selesai (Layout Public & Dashboard)
+- [x] 1.6 — Verifikasi: app jalan di localhost ✅ Berhasil (localhost:3000 berjalan lancar)
 
 ---
 
@@ -116,7 +116,7 @@
 > **Output:** URL publik yang bisa dikasih ke dosen.
 
 - [ ] 4.1 — Build production
-- [ ] 4.2 — Deploy ke hosting (Vercel/Netlify/Cloudflare)
+- [x] 4.2 — Deploy ke hosting (Vercel/Netlify/Cloudflare) ✅ Berhasil deploy awal ke Vercel
 - [ ] 4.3 — Test semua fitur di production
 - [ ] 4.4 — Pastikan semua fitur terbuka (tanpa paywall)
 
@@ -168,6 +168,10 @@
 | 2026-07-05 | Sitemap dibuat: 23 halaman | Public, Customer, Merchant, Admin terstruktur dengan baik |
 | 2026-07-05 | Nama Brand: SiapSedia | Familiar, positif, deskriptif tentang layanan yang selalu siap ada |
 | 2026-07-05 | Inisialisasi Next.js | Berhasil setup Next.js 16 + Tailwind v4 + React 19 secara manual. |
+| 2026-07-05 | Initial Deployment (Vercel) | Melakukan deploy awal sebelum setup DB untuk memastikan CI/CD berjalan lancar tanpa error environment variables. |
+| 2026-07-05 | Database Schema (Task 0.9) | Menggunakan single User table dengan relasi MerchantProfile. Menambahkan Vercel Blob untuk image hosting. |
+| 2026-07-05 | Revenue Model: Freemium | 10 pesanan gratis/bulan, mengakomodasi batasan tanpa payment gateway. |
+| 2026-07-05 | Desain: Murni Tailwind (Netral) | Tanpa Shadcn. Menggunakan warna dasar abu-abu/hitam untuk kerangka awal. |
 
 ---
 

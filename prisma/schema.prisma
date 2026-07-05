@@ -11,3 +11,136 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role {
+  CUSTOMER
+  MERCHANT
+  ADMIN
+}
+
+enum ProductCategory {
+  GALON
+  GAS
+  LAUNDRY
+}
+
+enum OrderStatus {
+  PENDING
+  ACCEPTED
+  PROCESSING
+  DELIVERING
+  COMPLETED
+  CANCELLED
+  REJECTED
+}
+
+enum PaymentStatus {
+  UNPAID
+  WAITING_CONFIRMATION
+  PAID
+}
+
+enum SubscriptionStatus {
+  FREE
+  PREMIUM
+}
+
+model User {
+  id              String           @id @default(uuid())
+  name            String
+  email           String           @unique
+  password        String
+  phoneNumber     String
+  address         String
+  role            Role             @default(CUSTOMER)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  merchantProfile MerchantProfile?
+  orders          Order[]
+  reviews         Review[]
+}
+
+model MerchantProfile {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  storeName          String
+  address            String
+  area               String
+  description        String?
+  isOpen             Boolean            @default(false)
+  isApproved         Boolean            @default(false)
+  qrisImageUrl       String?
+  deliveryFee        Int                @default(0)
+  subscriptionStatus SubscriptionStatus @default(FREE)
+  monthlyOrderCount  Int                @default(0)
+  lastOrderResetDate DateTime           @default(now())
+
+  products Product[]
+  orders   Order[]
+  reviews  Review[]
+}
+
+model Product {
+  id         String          @id @default(uuid())
+  merchantId String
+  merchant   MerchantProfile @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  name        String
+  category    ProductCategory
+  price       Int
+  description String?
+  isAvailable Boolean         @default(true)
+  imageUrl    String?
+
+  orderItems OrderItem[]
+}
+
+model Order {
+  id         String          @id @default(uuid())
+  customerId String
+  customer   User            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  merchantId String
+  merchant   MerchantProfile @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  status          OrderStatus   @default(PENDING)
+  paymentStatus   PaymentStatus @default(UNPAID)
+  paymentMethod   String
+  paymentProofUrl String?
+  shippingAddress String
+  notes           String?
+  shippingCost    Int           @default(0)
+  totalAmount     Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderItems OrderItem[]
+  review     Review?
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  quantity Int
+  price    Int
+}
+
+model Review {
+  id         String          @id @default(uuid())
+  orderId    String          @unique
+  order      Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  customerId String
+  customer   User            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  merchantId String
+  merchant   MerchantProfile @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+}
