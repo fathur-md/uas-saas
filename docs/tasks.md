@@ -48,7 +48,7 @@
 - [x] 0.5 — Tentukan batasan scope (apa yang TIDAK termasuk) ✅ 9 item dicoret
 - [x] 0.6 — Buat sitemap (daftar halaman + routing) ✅ Selesai, total 23 halaman terstruktur
 - [x] 0.7 — Brainstorm nama brand ✅ Dipilih: SiapSedia
-- [ ] 0.8 — Tentukan tech stack
+- [/] 0.8 — Tentukan tech stack *(Menunggu keputusan akhir tentang ORM)*
 - [ ] 0.9 — Desain database schema (tabel, relasi) → `database-schema.md`
 - [ ] 0.10 — Review akhir: semua docs lengkap & konsisten
 
@@ -59,7 +59,7 @@
 > **Tujuan:** Fondasi project siap, bisa langsung develop fitur.
 > **Output:** Project berjalan di localhost, database terhubung.
 
-- [ ] 1.1 — Inisialisasi project (framework)
+- [x] 1.1 — Inisialisasi project (framework) ✅ Next.js 16 & Tailwind v4 terinstal
 - [ ] 1.2 — Setup database & buat tabel
 - [ ] 1.3 — Setup environment variables
 - [ ] 1.4 — Setup design system (warna, font, layout dasar)
@@ -167,6 +167,7 @@
 | 2026-07-05 | Batasan scope: 9 fitur dicoret | Fokus ke MVP, hindari scope creep |
 | 2026-07-05 | Sitemap dibuat: 23 halaman | Public, Customer, Merchant, Admin terstruktur dengan baik |
 | 2026-07-05 | Nama Brand: SiapSedia | Familiar, positif, deskriptif tentang layanan yang selalu siap ada |
+| 2026-07-05 | Inisialisasi Next.js | Berhasil setup Next.js 16 + Tailwind v4 + React 19 secara manual. |
 
 ---
 

@@ -196,7 +196,12 @@ Customer pesan → Merchant terima/tolak → Diproses → Diantar → Selesai �
 
 ## 0.9 Tech Stack
 
-> *Belum ditentukan — akan didiskusikan selanjutnya.*
+- **Framework:** Next.js 16 (App Router)
+- **Styling:** Tailwind CSS v4
+- **Database:** Neon DB (PostgreSQL)
+- **Authentication:** Auth.js (NextAuth)
+- **Deployment:** Vercel
+- **ORM:** *Belum ditentukan (Prisma vs Drizzle)*
 
 ---
 
