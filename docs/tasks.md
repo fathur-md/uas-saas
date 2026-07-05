@@ -171,7 +171,7 @@
 | 2026-07-05 | Initial Deployment (Vercel) | Melakukan deploy awal sebelum setup DB untuk memastikan CI/CD berjalan lancar tanpa error environment variables. |
 | 2026-07-05 | Database Schema (Task 0.9) | Menggunakan single User table dengan relasi MerchantProfile. Menambahkan Vercel Blob untuk image hosting. |
 | 2026-07-05 | Revenue Model: Freemium | 10 pesanan gratis/bulan, mengakomodasi batasan tanpa payment gateway. |
-| 2026-07-05 | Desain: Murni Tailwind (Netral) | Tanpa Shadcn. Menggunakan warna dasar abu-abu/hitam untuk kerangka awal. |
+| 2026-07-05 | Desain: Murni Tailwind (Netral) | Menggunakan warna dasar abu-abu/hitam untuk kerangka awal. |
 
 ---
 
