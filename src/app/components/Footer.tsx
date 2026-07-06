@@ -37,7 +37,7 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-semibold text-primary mb-4">Merchant</h3>
             <ul className="space-y-3 text-sm text-neutral-dark/70">
-              <li><Link href="/register/merchant" className="hover:text-accent transition-colors">Daftar Merchant</Link></li>
+              <li><Link href="/mitra" className="hover:text-accent transition-colors">Daftar Merchant</Link></li>
               <li><Link href="/login" className="hover:text-accent transition-colors">Masuk Merchant</Link></li>
             </ul>
           </div>
@@ -46,8 +46,8 @@ export default function Footer() {
         <div className="mt-16 pt-8 border-t border-neutral-light/20 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-neutral-dark/60">
           <p>&copy; {new Date().getFullYear()} SiapSedia. Hak cipta dilindungi.</p>
           <div className="flex gap-6">
-            <Link href="#" className="hover:text-primary transition-colors">Kebijakan Privasi</Link>
-            <Link href="#" className="hover:text-primary transition-colors">Syarat & Ketentuan</Link>
+            <Link href="/privacy" className="hover:text-primary transition-colors">Kebijakan Privasi</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">Syarat & Ketentuan</Link>
           </div>
         </div>
       </div>

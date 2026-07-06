@@ -30,6 +30,7 @@ Aplikasi ini menggunakan pendekatan **Satu Tabel User** untuk mempermudah Autent
 - `role` (Enum: `CUSTOMER`, `MERCHANT`, `ADMIN`, Default: `CUSTOMER`)
 - `createdAt` (DateTime)
 - `updatedAt` (DateTime)
+- `deletedAt` (DateTime, opsional) — _untuk soft delete oleh Admin_
 - **Relasi:**
   - `MerchantProfile` (1-to-1)
   - `Order` (1-to-many, sebagai Customer)

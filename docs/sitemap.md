@@ -11,9 +11,9 @@
 |---------|---------------|
 | 🌐 Public | 4 |
 | 👤 Customer | 5 |
-| 🏪 Merchant | 6 |
+| 🏪 Merchant | 5 |
 | 🛡️ Admin | 7 |
-| **Total** | **22** |
+| **Total** | **21** |
 
 > Beberapa halaman punya pola serupa (list, detail, form) sehingga bisa pakai komponen yang sama.
 
@@ -151,9 +151,9 @@ Dashboard (/admin/dashboard)
 
 | Komponen | Dipakai di |
 |----------|-----------|
-| Form produk | M3 (tambah) & M4 (edit) — komponen sama, mode berbeda |
+| Form produk | M2 (tambah) & M3 (edit) — komponen sama, mode berbeda |
 | Card merchant | C1 (daftar) — reusable |
-| Card pesanan | C4, M5, A6 — pola serupa (info pesanan + status badge) |
-| Detail pesanan | C5 & M6 — mirip, tapi beda tombol action |
-| Tabel user | A4 (customer) & A2 (merchant) — pola serupa |
+| Card pesanan | C3, M4, A6 — pola serupa (info pesanan + status badge) |
+| Detail pesanan | C3, M4, A6 — mirip, tapi beda tombol action |
+| Tabel user | A4 (semua user) & A2 (daftar merchant) — pola serupa |
 | Status badge | Semua halaman pesanan — komponen kecil reusable |

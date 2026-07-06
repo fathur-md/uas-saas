@@ -141,7 +141,7 @@ Estimasi: ~12-15 halaman
 
 ## 0.6 Revenue Model Platform
 
-**Freemium SaaS:** Merchant mendapatkan 10 pesanan gratis setiap bulan. Jika melebihi kuota, merchant harus berlangganan (bayar ke Admin) atau menunggu hingga batas bulan di-reset.
+**Freemium SaaS:** Merchant mendapatkan 10 pesanan gratis setiap bulan. Jika melebihi kuota, merchant harus berlangganan sebesar Rp 29.000/bulan (atau Rp 290.000/tahun) kepada Admin untuk menerima pesanan tak terbatas tanpa potongan komisi transaksi.
 
 > *Detail implementasi ditentukan saat database schema.*
 
@@ -163,6 +163,7 @@ Customer pesan → Merchant terima/tolak → Diproses → Diantar → Selesai �
 | `processing` | Sedang diproses (cuci/isi galon/siapkan gas) |
 | `delivering` | Sedang diantar |
 | `completed` | Pesanan selesai |
+| `cancelled` | Dibatalkan oleh customer atau sistem |
 
 ### Payment Status
 

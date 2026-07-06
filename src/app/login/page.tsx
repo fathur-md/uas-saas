@@ -88,7 +88,7 @@ function LoginForm() {
               Belum punya akun? <Link href="/register" className="font-semibold text-accent hover:underline">Daftar Customer</Link>
             </p>
             <p>
-              Ingin berjualan? <Link href="/register/merchant" className="font-semibold text-accent hover:underline">Daftar Merchant</Link>
+              Ingin berjualan? <Link href="/mitra" className="font-semibold text-accent hover:underline">Daftar Merchant</Link>
             </p>
           </div>
         </div>

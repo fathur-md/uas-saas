@@ -1,4 +1,4 @@
-import { Droplets, Flame, Shirt } from "lucide-react";
+import { Droplets, Flame, Shirt, Sparkles } from "lucide-react";
 
 const services = [
   { icon: Droplets, label: "Galon Air", desc: "Air minum isi ulang & merek pilihan, diantar ke depan pintu." },
@@ -37,6 +37,17 @@ export default function ServicesSection() {
                 </div>
               );
             })}
+          </div>
+
+          {/* More in the future badge */}
+          <div className="mt-16 sm:mt-20 flex justify-center opacity-80 hover:opacity-100 transition-opacity duration-500">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white shadow-sm ring-1 ring-neutral-light/20 backdrop-blur-sm">
+              <Sparkles className="w-5 h-5 text-accent animate-pulse" />
+              <span className="text-sm font-medium tracking-wider text-neutral-dark/80 uppercase">
+                Lebih Banyak Layanan di Masa Depan
+              </span>
+              <Sparkles className="w-5 h-5 text-accent animate-pulse" />
+            </div>
           </div>
         </div>
       </div>

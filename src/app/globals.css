@@ -27,3 +27,18 @@ body {
   color: var(--foreground);
 }
 
+/* Memastikan semua elemen interaktif memiliki kursor yang tepat */
+button:not(:disabled),
+a[href],
+input[type="submit"],
+input[type="button"],
+input[type="checkbox"],
+input[type="radio"],
+label {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
+}

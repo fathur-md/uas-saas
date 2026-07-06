@@ -182,6 +182,9 @@
 | 2026-07-06 | Clean UI | Menghapus class `dark:` secara global untuk mengunci aplikasi di mode Light Mode demi konsistensi estetika. |
 | 2026-07-06 | Dashboard Layout | Menyembunyikan komponen `<Footer />` di dalam area dashboard (Admin, Merchant, Customer) agar layar fokus pada antarmuka aplikasi. |
 | 2026-07-06 | Production Readiness | Melakukan uji `npm run build` dan aplikasi berhasil di-*compile* 100% tanpa satupun error TypeScript atau *build errors*. |
+| 2026-07-07 | Penetapan Harga Langganan | Memutuskan Rp 29.000/bulan sebagai biaya langganan Merchant (SaaS Freemium) berdasarkan riset margin keuntungan UMKM lokal. Harga ini menjamin ROI instan bagi merchant. |
+| 2026-07-07 | Restrukturisasi Akuisisi Mitra | Memisahkan alur akuisisi mitra dari beranda (menghapus Pricing Section dari pelanggan) dan membuat `/mitra` sebagai landing page khusus Merchant dengan desain Premium. |
+| 2026-07-07 | Production Build Check (Pre-Deployment) | Berhasil menjalankan uji kompilasi `npm run build` dan `npm run lint`. Nol error. Aplikasi 100% siap untuk di-deploy ke GitHub dan Production. |
 
 ---
 
@@ -192,4 +195,7 @@
 
 | Tanggal | Fase | Masalah | Solusi |
 |---------|------|---------|-------|
-| — | — | — | — |
+| 2026-07-05 | Fase 2 | Merchant registration error — action `registerMerchant` tidak ditemukan | Membuat server action `registerMerchant` di `src/app/actions/auth.ts` |
+| 2026-07-05 | Fase 2 | Merchant sidebar — link mengarah ke path yang salah | Memperbaiki prefix link menjadi `/merchant/*` |
+| 2026-07-05 | Fase 2 | Dashboard Merchant & Admin tidak menampilkan statistik | Menambahkan aggregasi data & tabel di halaman dashboard |
+| 2026-07-05 | Fase 2 | Admin Users — tidak bisa soft delete/restore | Implementasi soft delete (`deletedAt`) pada model User + aksi di halaman admin |

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { logoutUser } from "@/app/actions/auth";
-import { LogOut, LayoutDashboard } from "lucide-react";
+import { LogOut, LayoutDashboard, LogIn } from "lucide-react";
 
 function getDashboardPath(role: string): string {
   switch (role) {
@@ -28,53 +28,53 @@ export default async function Navbar() {
   const role = (user as any)?.role as string | undefined;
 
   return (
-    <header className="sticky top-0 z-50 flex justify-center pt-4 px-4 pointer-events-none">
-      <div className="pointer-events-auto flex w-full max-w-5xl items-center justify-between rounded-full bg-white/70 px-4 py-2.5 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/40 ring-1 ring-neutral-light/20">
-        <Link href="/" className="flex items-center gap-2 font-bold tracking-tight text-primary transition-opacity hover:opacity-80">
-          <Image src="/logo.webp" alt="SiapSedia logo" width={28} height={28} className="rounded-md" />
-          <span className="text-lg">Siap<span className="text-accent font-medium">Sedia</span></span>
+    <header className="sticky top-0 z-50 flex justify-center pt-6 px-4 pointer-events-none">
+      <div className="pointer-events-auto flex w-full max-w-4xl items-center justify-between rounded-full bg-white/70 px-4 py-3 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/60 ring-1 ring-neutral-light/20">
+        
+        {/* KIRI: LOGO */}
+        <Link href="/" className="flex items-center gap-2.5 font-bold tracking-tight text-primary transition-transform hover:scale-105 active:scale-95 ml-2">
+          <Image src="/logo.webp" alt="SiapSedia logo" width={24} height={24} className="rounded-md" />
+          <span className="text-base sm:text-lg">Siap<span className="text-accent font-medium">Sedia</span></span>
         </Link>
 
-        {/* Tautan Halaman Baru (Hanya tampil di Desktop agar rapi) */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-neutral-dark/80">
-          <Link href="/about" className="hover:text-primary transition-colors">Tentang Kami</Link>
-          <Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link>
-          <Link href="/contact-us" className="hover:text-primary transition-colors">Hubungi Kami</Link>
-        </nav>
+        {/* KANAN: NAVIGASI & AKSI */}
+        <div className="flex items-center gap-4 md:gap-5">
+          {/* TAUTAN NAVIGASI (Rapat ke Kanan) */}
+          <nav className="hidden md:flex items-center gap-4 text-[13px] font-semibold text-neutral-dark/50 uppercase tracking-widest">
+            <Link href="/about" className="hover:text-primary transition-colors">Tentang</Link>
+            <Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link>
+            <Link href="/contact-us" className="hover:text-primary transition-colors">Kontak</Link>
+          </nav>
 
-        <div className="flex items-center gap-3">
+          {/* Pemisah antara Navigasi & Ikon Auth */}
+          <div className="w-px h-5 bg-neutral-light/40 hidden md:block" />
+
+          {/* AKSI KANAN */}
+          <div className="flex items-center gap-1">
           {user && role ? (
             <>
-              <Link href={getDashboardPath(role)} className="flex items-center gap-1.5 text-sm font-medium text-neutral-dark hover:text-accent transition-colors">
-                <LayoutDashboard className="h-4 w-4" />
-                <span className="hidden sm:inline">Dashboard</span>
+              <Link href={getDashboardPath(role)} className="hidden sm:flex items-center px-4 py-2 text-sm font-semibold text-neutral-dark hover:text-accent transition-colors rounded-full hover:bg-neutral-50">
+                Dashboard
               </Link>
-              <div className="hidden sm:flex items-center gap-1.5 text-xs text-neutral-dark/70 bg-background/50 px-2 py-1 rounded-full ring-1 ring-neutral-light/20">
-                <span className="text-accent font-semibold">{getRoleLabel(role)}</span>
-                <span className="w-px h-3 bg-neutral-light/50" />
-                <span className="truncate max-w-[100px]">{user.name}</span>
-              </div>
+              <div className="w-px h-4 bg-neutral-light/40 mx-2 hidden sm:block" />
               <form action={logoutUser}>
-                <button type="submit" className="flex items-center justify-center rounded-full p-2 text-neutral-dark hover:bg-red-50 hover:text-red-600 transition-all cursor-pointer" title="Keluar">
-                  <LogOut className="h-4 w-4" />
+                <button type="submit" className="flex items-center justify-center rounded-full p-2 text-neutral-dark/50 hover:bg-red-50 hover:text-red-600 transition-colors" title="Keluar">
+                  <LogOut className="h-5 w-5" />
                 </button>
               </form>
             </>
           ) : (
             <>
-              <Link href="/register/merchant" className="hidden md:block text-sm font-medium text-accent hover:text-accent/80 transition-colors px-2">
+              <Link href="/mitra" className="hidden sm:flex items-center justify-center rounded-full px-4 py-1.5 text-[13px] font-bold text-accent bg-accent/10 hover:bg-accent hover:text-white transition-colors mr-2 shadow-sm">
                 Jadi Mitra
               </Link>
-              <div className="hidden md:block w-px h-4 bg-neutral-light/50 mx-1" />
-              <Link href="/login" className="text-sm font-medium text-neutral-dark hover:text-primary transition-colors px-2">
-                Masuk
-              </Link>
-              <Link href="/register" className="text-sm font-medium px-5 py-2 rounded-full bg-primary text-white hover:bg-primary/90 transition-all shadow-sm hover:shadow-md">
-                Daftar
+              <Link href="/login" className="flex items-center justify-center rounded-full p-2 text-neutral-dark/60 hover:bg-neutral-100 hover:text-primary transition-colors" title="Masuk / Daftar">
+                <LogIn className="h-5 w-5" />
               </Link>
             </>
           )}
         </div>
+      </div>
       </div>
     </header>
   );
