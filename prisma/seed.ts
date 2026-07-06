@@ -1,16 +1,30 @@
 import "dotenv/config";
 import { PrismaClient } from "../src/generated/prisma/client";
-import { Pool, neonConfig } from "@neondatabase/serverless";
+import { neonConfig } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import bcrypt from "bcryptjs";
 import ws from "ws";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-neonConfig.webSocketConstructor = ws;
-
-// Ambil koneksi database
 const connectionString = process.env.DATABASE_URL!;
-const adapter = new PrismaNeon({ connectionString });
-const prisma = new PrismaClient({ adapter });
+
+if (!connectionString) {
+  throw new Error("Database URL tidak ditemukan di env");
+}
+
+let prisma: PrismaClient;
+
+if (connectionString.includes("neon.tech")) {
+  neonConfig.webSocketConstructor = ws;
+
+  prisma = new PrismaClient({
+    adapter: new PrismaNeon({ connectionString })
+  });
+} else {
+  prisma = new PrismaClient({
+    adapter: new PrismaPg({ connectionString })
+  });
+}
 
 async function main() {
   const adminEmail = "admin@siapsedia.com";

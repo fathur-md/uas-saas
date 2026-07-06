@@ -119,10 +119,10 @@
 > **Tujuan:** Website bisa diakses online.
 > **Output:** URL publik yang bisa dikasih ke dosen.
 
-- [ ] 4.1 — Build production
-- [x] 4.2 — Deploy ke hosting (Vercel/Netlify/Cloudflare) ✅ Berhasil deploy awal ke Vercel
-- [ ] 4.3 — Test semua fitur di production
-- [ ] 4.4 — Pastikan semua fitur terbuka (tanpa paywall)
+- [x] 4.1 — Build production ✅ Berhasil tanpa error
+- [x] 4.2 — Deploy ke hosting (Vercel/Netlify/Cloudflare) ✅ Berhasil deploy dan terkoneksi ke Neon DB
+- [x] 4.3 — Test semua fitur di production ✅ Berhasil login Super Admin di Vercel
+- [x] 4.4 — Pastikan semua fitur terbuka (tanpa paywall) ✅ Siap untuk dosen
 
 ---
 

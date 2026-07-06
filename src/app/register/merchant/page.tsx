@@ -1,99 +1,112 @@
 "use client";
-
 import Link from "next/link";
 import { useActionState } from "react";
 import { registerMerchant } from "@/app/actions/auth";
+import { Store, TrendingUp, Users } from "lucide-react";
 
 export default function RegisterMerchantPage() {
   const [state, action, isPending] = useActionState(registerMerchant, null);
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-2xl">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-primary">
-          Daftar sebagai Mitra Merchant
-        </h2>
-        <p className="mt-2 text-center text-sm text-neutral-dark">
-          Bergabunglah dengan SiapSedia dan kembangkan bisnis Anda. (Mendapatkan 10 kuota pesanan gratis setiap bulan)
-        </p>
+    <div className="flex min-h-screen bg-white">
+      {/* KIRI: Branding Merchant */}
+      <div className="hidden lg:flex lg:w-[45%] bg-accent relative flex-col justify-between p-12 overflow-hidden">
+        <div className="relative z-10">
+          <Link href="/" className="text-3xl font-bold tracking-tight text-white">Siap<span className="text-primary">Sedia</span></Link>
+          <div className="mt-24 max-w-lg">
+            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl mb-6 leading-tight">
+              Tumbuhkan Bisnis <br/>Anda Bersama Kami.
+            </h1>
+            <p className="text-lg text-white/80 leading-relaxed">
+              Kelola pesanan galon, gas, dan laundry dengan mudah. Jangkau pelanggan baru di sekitar area Anda.
+            </p>
+          </div>
+        </div>
+
+        <div className="relative z-10 space-y-6">
+          <div className="flex items-center gap-4 text-white">
+            <div className="flex size-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm"><Store className="w-6 h-6"/></div>
+            <div><h4 className="font-semibold text-lg">Kelola Toko Online</h4><p className="text-white/70 text-sm">Terima pesanan secara real-time.</p></div>
+          </div>
+          <div className="flex items-center gap-4 text-white">
+            <div className="flex size-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm"><TrendingUp className="w-6 h-6"/></div>
+            <div><h4 className="font-semibold text-lg">Tanpa Biaya Tersembunyi</h4><p className="text-white/70 text-sm">10 pesanan pertama gratis tiap bulan.</p></div>
+          </div>
+        </div>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-2xl bg-background p-8 shadow-sm rounded-xl border border-neutral-light">
-        <form className="space-y-8" action={action}>
-
-          {state?.error && (
-            <div className="rounded-lg bg-red-50 p-4 border border-red-200">
-              <div className="text-sm text-red-700">{state.error}</div>
-            </div>
-          )}
-
-          {/* Akun Section */}
-          <div>
-            <h3 className="text-base font-semibold leading-7 text-primary">Informasi Akun</h3>
-            <p className="mt-1 text-sm leading-6 text-neutral-dark">Digunakan untuk masuk ke dalam aplikasi.</p>
-            <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-              <div className="sm:col-span-1">
-                <label htmlFor="name" className="block text-sm font-medium leading-6 text-primary">Nama Pemilik</label>
-                <input id="name" name="name" type="text" required className="mt-2 block w-full rounded-lg border-0 py-2.5 text-base text-primary shadow-sm ring-1 ring-inset ring-neutral-light placeholder:text-neutral-light focus:ring-2 focus:ring-inset focus:ring-accent sm:py-2 sm:text-sm sm:leading-6 px-3" />
-              </div>
-              <div className="sm:col-span-1">
-                <label htmlFor="email" className="block text-sm font-medium leading-6 text-primary">Alamat Email</label>
-                <input id="email" name="email" type="email" required className="mt-2 block w-full rounded-lg border-0 py-2.5 text-base text-primary shadow-sm ring-1 ring-inset ring-neutral-light placeholder:text-neutral-light focus:ring-2 focus:ring-inset focus:ring-accent sm:py-2 sm:text-sm sm:leading-6 px-3" />
-              </div>
-              <div className="sm:col-span-1">
-                <label htmlFor="phone" className="block text-sm font-medium leading-6 text-primary">Nomor Handphone Pemilik</label>
-                <input id="phone" name="phone" type="tel" required className="mt-2 block w-full rounded-lg border-0 py-2.5 text-base text-primary shadow-sm ring-1 ring-inset ring-neutral-light placeholder:text-neutral-light focus:ring-2 focus:ring-inset focus:ring-accent sm:py-2 sm:text-sm sm:leading-6 px-3" />
-              </div>
-              <div className="sm:col-span-1">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-primary">Kata Sandi</label>
-                <input id="password" name="password" type="password" required className="mt-2 block w-full rounded-lg border-0 py-2.5 text-base text-primary shadow-sm ring-1 ring-inset ring-neutral-light placeholder:text-neutral-light focus:ring-2 focus:ring-inset focus:ring-accent sm:py-2 sm:text-sm sm:leading-6 px-3" />
-              </div>
-            </div>
+      {/* KANAN: Formulir Merchant */}
+      <div className="flex w-full lg:w-[55%] flex-col justify-center items-center px-6 py-12 bg-background">
+        <div className="w-full max-w-2xl">
+          <div className="lg:hidden mb-8 text-center">
+            <Link href="/" className="text-3xl font-bold tracking-tight text-primary">
+              Siap<span className="text-accent">Sedia</span>
+            </Link>
           </div>
 
-          <hr className="border-neutral-light" />
+          <h2 className="text-3xl font-bold tracking-tight text-primary mb-2">Daftar Mitra Merchant</h2>
+          <p className="text-sm text-neutral-dark/70 mb-10">Lengkapi profil usaha Anda untuk mulai menerima pesanan.</p>
 
-          {/* Toko Section */}
-          <div>
-            <h3 className="text-base font-semibold leading-7 text-primary">Profil Toko</h3>
-            <p className="mt-1 text-sm leading-6 text-neutral-dark">Informasi ini akan ditampilkan kepada calon pelanggan Anda.</p>
-            <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-              <div className="sm:col-span-2">
-                <label htmlFor="storeName" className="block text-sm font-medium leading-6 text-primary">Nama Toko</label>
-                <input id="storeName" name="storeName" type="text" required className="mt-2 block w-full rounded-lg border-0 py-2.5 text-base text-primary shadow-sm ring-1 ring-inset ring-neutral-light placeholder:text-neutral-light focus:ring-2 focus:ring-inset focus:ring-accent sm:py-2 sm:text-sm sm:leading-6 px-3" />
-              </div>
-              <div className="sm:col-span-1">
-                <label htmlFor="area" className="block text-sm font-medium leading-6 text-primary">Kecamatan / Area</label>
-                <input id="area" name="area" type="text" placeholder="Misal: Kebayoran Baru" required className="mt-2 block w-full rounded-lg border-0 py-2.5 text-base text-primary shadow-sm ring-1 ring-inset ring-neutral-light placeholder:text-neutral-light focus:ring-2 focus:ring-inset focus:ring-accent sm:py-2 sm:text-sm sm:leading-6 px-3" />
-              </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="address" className="block text-sm font-medium leading-6 text-primary">Alamat Lengkap Toko</label>
-                <textarea id="address" name="address" rows={3} required className="mt-2 block w-full rounded-lg border-0 py-2.5 text-base text-primary shadow-sm ring-1 ring-inset ring-neutral-light placeholder:text-neutral-light focus:ring-2 focus:ring-inset focus:ring-accent sm:py-2 sm:text-sm sm:leading-6 px-3" />
-              </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="description" className="block text-sm font-medium leading-6 text-primary">Deskripsi Singkat (Opsional)</label>
-                <textarea id="description" name="description" rows={2} className="mt-2 block w-full rounded-lg border-0 py-2.5 text-base text-primary shadow-sm ring-1 ring-inset ring-neutral-light placeholder:text-neutral-light focus:ring-2 focus:ring-inset focus:ring-accent sm:py-2 sm:text-sm sm:leading-6 px-3" />
+          <form className="space-y-10" action={action}>
+            {state?.error && <div className="rounded-xl bg-red-50 p-4 text-sm text-red-800">{state.error}</div>}
+
+            {/* Bagian Akun */}
+            <div>
+              <h3 className="text-lg font-semibold text-primary mb-1 border-b border-neutral-light/30 pb-2">1. Informasi Pemilik</h3>
+              <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
+                <div>
+                  <label className="block text-sm font-medium leading-6 text-primary">Nama Pemilik</label>
+                  <input name="name" type="text" required className="mt-1 block w-full rounded-xl bg-white border-0 py-3 px-4 ring-1 ring-inset ring-neutral-light/50 focus:ring-2 focus:ring-accent transition-all sm:text-sm" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium leading-6 text-primary">Alamat Email</label>
+                  <input name="email" type="email" required className="mt-1 block w-full rounded-xl bg-white border-0 py-3 px-4 ring-1 ring-inset ring-neutral-light/50 focus:ring-2 focus:ring-accent transition-all sm:text-sm" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium leading-6 text-primary">Nomor Handphone</label>
+                  <input name="phone" type="tel" required className="mt-1 block w-full rounded-xl bg-white border-0 py-3 px-4 ring-1 ring-inset ring-neutral-light/50 focus:ring-2 focus:ring-accent transition-all sm:text-sm" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium leading-6 text-primary">Kata Sandi</label>
+                  <input name="password" type="password" required className="mt-1 block w-full rounded-xl bg-white border-0 py-3 px-4 ring-1 ring-inset ring-neutral-light/50 focus:ring-2 focus:ring-accent transition-all sm:text-sm" />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="pt-4">
-            <button
-              type="submit"
-              disabled={isPending}
-              className="flex w-full justify-center rounded-lg bg-accent px-3 py-2.5 text-base sm:py-2 sm:text-sm font-semibold leading-6 text-white shadow-sm hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-            >
-              {isPending ? "Mengirim Pendaftaran..." : "Kirim Pendaftaran Merchant"}
-            </button>
-          </div>
-        </form>
+            {/* Bagian Toko */}
+            <div>
+              <h3 className="text-lg font-semibold text-primary mb-1 border-b border-neutral-light/30 pb-2">2. Profil Usaha</h3>
+              <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium leading-6 text-primary">Nama Toko</label>
+                  <input name="storeName" type="text" required className="mt-1 block w-full rounded-xl bg-white border-0 py-3 px-4 ring-1 ring-inset ring-neutral-light/50 focus:ring-2 focus:ring-accent transition-all sm:text-sm" />
+                </div>
+                <div className="sm:col-span-1">
+                  <label className="block text-sm font-medium leading-6 text-primary">Kecamatan/Area</label>
+                  <input name="area" type="text" placeholder="Misal: Kebayoran Baru" required className="mt-1 block w-full rounded-xl bg-white border-0 py-3 px-4 ring-1 ring-inset ring-neutral-light/50 focus:ring-2 focus:ring-accent transition-all sm:text-sm" />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium leading-6 text-primary">Alamat Lengkap Toko</label>
+                  <textarea name="address" rows={2} required className="mt-1 block w-full rounded-xl bg-white border-0 py-3 px-4 ring-1 ring-inset ring-neutral-light/50 focus:ring-2 focus:ring-accent transition-all sm:text-sm resize-none" />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium leading-6 text-primary">Deskripsi Singkat (Opsional)</label>
+                  <textarea name="description" rows={2} className="mt-1 block w-full rounded-xl bg-white border-0 py-3 px-4 ring-1 ring-inset ring-neutral-light/50 focus:ring-2 focus:ring-accent transition-all sm:text-sm resize-none" />
+                </div>
+              </div>
+            </div>
 
-        <p className="mt-8 text-center text-sm text-neutral-dark">
-          Sudah punya akun?{" "}
-          <Link href="/login" className="font-semibold leading-6 text-accent hover:underline">
-            Masuk di sini
-          </Link>
-        </p>
+            <div className="pt-4">
+              <button type="submit" disabled={isPending} className="flex w-full justify-center rounded-full bg-accent px-3 py-4 text-base font-semibold text-white shadow-lg hover:bg-accent/90 active:scale-[0.99] transition-transform">
+                {isPending ? "Mendaftarkan..." : "Bergabung Sekarang"}
+              </button>
+            </div>
+          </form>
+
+          <p className="mt-8 text-center text-sm text-neutral-dark/70">
+            Sudah terdaftar sebagai mitra? <Link href="/login" className="font-semibold text-primary hover:underline">Masuk di sini</Link>
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -1,54 +1,45 @@
 import Link from "next/link";
 import { Droplets, Flame, Shirt } from "lucide-react";
 
-const floaters = [
-  {
-    Icon: Droplets,
-    className: "top-20 left-10 sm:left-20 size-10 sm:size-14 rotate-12"
-  },
-  {
-    Icon: Flame,
-    className: "bottom-32 right-10 sm:right-20 size-11 sm:size-16 -rotate-12"
-  },
-  {
-    Icon: Shirt,
-    className: "top-40 right-12 sm:right-28 size-9 sm:size-12 rotate-45"
-  }
-];
-
 export default function HeroSection() {
   return (
     <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-4 text-center">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-accent/5 via-transparent to-transparent" />
-      <div className="pointer-events-none absolute inset-y-1/3 left-1/2 -translate-x-1/2 size-120 rounded-full bg-accent/5 blur-3xl" />
-      {floaters.map(({ Icon, className }) => (
-        <div
-          key={className}
-          className={`pointer-events-none absolute text-accent/10 ${className}`}
-        >
-          <Icon className="size-full" />
+      {/* Latar belakang gradien lembut ala Apple */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-white/50 -z-10" />
+      <div className="absolute top-0 w-full h-[500px] bg-accent/5 blur-[100px] rounded-full -translate-y-1/2 -z-10" />
+
+      {/* Konten Utama */}
+      <div className="z-10 max-w-4xl mx-auto flex flex-col items-center">
+        <h1 className="text-5xl font-bold tracking-tight text-primary sm:text-7xl md:text-8xl">
+          Siap<span className="text-accent font-medium">Sedia</span>
+        </h1>
+        <p className="mt-6 max-w-2xl text-lg text-neutral-dark/80 sm:text-xl md:text-2xl leading-relaxed font-light">
+          Kebutuhan rumah tangga dalam satu sentuhan. 
+          <br className="hidden sm:block" />
+          Pesan galon, gas, dan laundry dengan mudah.
+        </p>
+        
+        {/* Tombol Aksi */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+          <Link
+            href="/register"
+            className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-sm sm:text-base font-medium text-white shadow-lg hover:bg-primary/90 hover:scale-105 transition-all duration-300"
+          >
+            Mulai Sekarang
+          </Link>
+          <Link
+            href="/login"
+            className="w-full sm:w-auto rounded-full bg-white/80 backdrop-blur-md px-8 py-3.5 text-sm sm:text-base font-medium text-primary shadow-sm ring-1 ring-neutral-light/30 hover:bg-neutral-50 hover:scale-105 transition-all duration-300"
+          >
+            Masuk
+          </Link>
         </div>
-      ))}
-      <h1 className="relative text-6xl font-semibold tracking-tight sm:text-8xl brand-glass">
-        Siap<span className="font-light">Sedia</span>
-      </h1>
-      <p className="relative mt-8 max-w-2xl text-xl leading-relaxed text-neutral-dark sm:text-2xl">
-        Marketplace lokal untuk kebutuhan harian rumah tangga Anda. Pesan galon,
-        gas, atau layanan laundry dari merchant terdekat.
-      </p>
-      <div className="relative mt-12 flex items-center justify-center gap-4">
-        <Link
-          href="/register"
-          className="rounded-xl bg-accent px-6 py-3 text-base font-semibold text-white shadow-sm hover:brightness-110 transition-all"
-        >
-          Daftar Gratis
-        </Link>
-        <Link
-          href="/login"
-          className="rounded-xl border border-neutral-light bg-white/60 px-6 py-3 text-base font-semibold text-primary shadow-sm hover:bg-white/80 transition-all"
-        >
-          Masuk
-        </Link>
+      </div>
+
+      {/* Elemen Dekoratif Minimalis */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-neutral-light">
+        <p className="text-xs uppercase tracking-widest font-medium mb-2">Scroll</p>
+        <div className="w-px h-8 bg-neutral-light mx-auto" />
       </div>
     </section>
   );

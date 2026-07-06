@@ -102,27 +102,26 @@ prisma/schema.prisma            # 6 models, 5 enums (Account/Session/Verificatio
 
 ## Model Delegation Workflow
 
-Optimize context usage by delegating tasks to the right model:
+Optimize context usage by utilizing Gemini effectively for both coding and research:
 
-### Claude Opus (Main Agent) — Coding & Reasoning
-- ✏️ Writing and editing code
+### Gemini (Main Agent) — Full Stack Development & Reasoning
+- ✏️ Writing, editing, and reviewing code
 - 🐛 Debugging and fixing bugs
 - 🧠 Deep code review (logic, security, architecture)
 - 📐 Architecture decisions
 - ✅ Verification (running tests, builds)
 
-### Research Subagent (Gemini Pro) — Reading & Research
-- 🔍 Reading and analyzing files
+### Research Subagent (Gemini) — Reading & Research
+- 🔍 Reading and analyzing large or multiple files
 - 🔍 Codebase exploration (grep, search)
-- 🔍 Light code review (style, typo, structure)
 - 🌐 Web search and documentation lookup
-- 📋 Summarizing file contents for main agent
+- 📋 Summarizing file contents for the main agent
 
 ### Rules
-1. **Always delegate file reading** to research subagents when reading more than 2-3 files.
+1. **Use Research Subagent** when reading more than 2-3 files to save main agent context.
 2. **Subagent returns summaries** — main agent receives condensed info, not raw file contents.
-3. **Coding stays on Opus** — never delegate file writes or edits to subagents.
-4. **Review workflow**: subagent reads & summarizes → Opus reviews logic & decides.
+3. **Coding stays on the Main Agent** — never delegate file writes or edits to subagents.
+4. **Review workflow**: Subagent reads & summarizes → Main Agent reviews logic, decides, and executes code changes.
 
 <!-- END:model-delegation-workflow -->
 
@@ -151,3 +150,24 @@ Optimize context usage by delegating tasks to the right model:
 2. **Perubahan Skala Besar**: Jika tugas mengharuskan perubahan struktur yang masif atau melibatkan banyak *file* sekaligus, **DILARANG** langsung mengeksekusinya. Diskusikan rencana arsitekturalnya terlebih dahulu dan tunggu persetujuan (*approval*) dari user sebelum menulis ke *file*.
 
 <!-- END:code-modification-rules -->
+
+<!-- BEGIN:advanced-agent-rules -->
+
+# Self-Validation & Testing
+1. **Wajib Linting**: Setelah membuat perubahan kode yang signifikan, agen HARUS menjalankan `npm run lint` untuk memastikan tidak ada pelanggaran aturan TypeScript/ESLint.
+2. **Cek Build**: Sebelum menyatakan suatu fitur "selesai 100%", agen disarankan untuk menjalankan `npm run build` jika dirasa perlu, untuk memastikan tidak ada *error* kompilasi di Next.js.
+
+# Next.js App Router Strict Guidelines
+1. **Server by Default**: Jadikan semua komponen sebagai Server Component secara *default*.
+2. **Push 'use client' Down**: Hanya tambahkan `"use client"` pada komponen sekecil mungkin yang memang membutuhkan *state* (`useState`), *hooks*, atau *event listeners* (`onClick`). Jangan menaruhnya di *file* *layout* atau *page* utama jika tidak terpaksa.
+3. **Data Mutations**: Dilarang membuat rute `/api` untuk mutasi data biasa. WAJIB menggunakan **Server Actions** di dalam direktori `src/app/actions/` yang dipanggil melalui `useActionState` (untuk *form*).
+
+# Security & Environment Variables
+1. **No Real Secrets**: JANGAN PERNAH *generate* atau menulis kunci API (*API keys*), *password* DB asli, atau JWT *secret* ke dalam *file* kode sumber.
+2. **Gunakan .env**: Jika membutuhkan variabel lingkungan baru, tambahkan contohnya HANYA ke `.env.example` dengan *value* palsu/dummy.
+
+# Code Style Rules
+1. **Jangan Hapus Komentar Eksisting**: Jangan menghapus komentar atau dokumentasi kode lama jika tidak berhubungan langsung dengan fitur yang sedang dikerjakan.
+2. **Tailwind CSS**: Dilarang menulis gaya CSS kustom (*inline styles*) jika masih bisa diselesaikan menggunakan kelas utilitas bawaan Tailwind v4.
+
+<!-- END:advanced-agent-rules -->
