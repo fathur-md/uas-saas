@@ -1,16 +1,43 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Link from "next/link";
+import Navbar from "./components/Navbar";
 import "./globals.css";
+import ConditionalFooter from "@/app/components/ConditionalFooter";
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"]
+  subsets: ["latin"],
+  display: "swap"
 });
 
 export const metadata: Metadata = {
-  title: "SiapSedia - SaaS Kebutuhan Rumah Tangga",
-  description: "Marketplace kebutuhan harian Anda."
+  title: "SiapSedia - Kebutuhan Rumah Tangga",
+  description:
+    "SiapSedia adalah platform SaaS marketplace kebutuhan rumah tangga yang memudahkan Anda berbelanja kebutuhan harian seperti galon, gas, dan laundry dari merchant terdekat secara online.",
+  keywords: [
+    "SiapSedia",
+    "marketplace",
+    "kebutuhan rumah tangga",
+    "galon",
+    "gas",
+    "laundry",
+    "belanja online",
+    "SaaS"
+  ],
+  openGraph: {
+    title: "SiapSedia - Marketplace Kebutuhan Rumah Tangga",
+    description:
+      "Pesan galon, gas, atau layanan laundry dari merchant terdekat. Semua kebutuhan harian rumah tangga dalam satu platform.",
+    siteName: "SiapSedia",
+    locale: "id_ID",
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SiapSedia - Marketplace Kebutuhan Rumah Tangga",
+    description:
+      "Pesan galon, gas, atau layanan laundry dari merchant terdekat. Semua kebutuhan harian rumah tangga dalam satu platform."
+  }
 };
 
 export default function RootLayout({
@@ -19,29 +46,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="h-full antialiased">
+    <html lang="id" className="h-full antialiased" style={{ colorScheme: 'light' }}>
       <body className={`${inter.className} min-h-dvh flex flex-col`}>
-        {/* Navbar Publik */}
-        <header className="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-          <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-            <Link href="/" className="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
-              SiapSedia
-            </Link>
-            <nav className="flex gap-4">
-              <Link
-                href="/login"
-                className="text-sm font-medium text-gray-600 hover:underline dark:text-gray-300 dark:hover:text-gray-100"
-              >
-                Masuk
-              </Link>
-            </nav>
-          </div>
-        </header>
-
-        {/* Konten Utama */}
+        <Navbar />
         <main className="flex-1 bg-background text-foreground flex-col flex">
           {children}
         </main>
+        <ConditionalFooter />
       </body>
     </html>
   );

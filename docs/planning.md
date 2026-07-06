@@ -192,8 +192,6 @@ Customer pesan → Merchant terima/tolak → Diproses → Diantar → Selesai �
 
 ## 0.9 Tech Stack
 
-## 0.9 Tech Stack
-
 - **Framework:** Next.js 16 (App Router)
 - **Styling:** Tailwind CSS v4
 - **Database:** Neon DB (PostgreSQL)
@@ -206,13 +204,13 @@ Customer pesan → Merchant terima/tolak → Diproses → Diantar → Selesai �
 
 ## 0.10 Sitemap
 
-> *Belum ditentukan — akan didiskusikan setelah tech stack.*
+> **Telah selesai disusun.** Silakan lihat detail struktur routing aplikasi pada dokumen terpisah di `sitemap.md`.
 
 ---
 
 ## 0.11 Database Schema
 
-> *Akan dibuat di `database-schema.md` setelah sitemap.*
+> **Telah diimplementasikan menggunakan Prisma ORM.** Silakan lihat detail struktur tabel dan relasi pada dokumen terpisah di `database-schema.md` dan file aktual `prisma/schema.prisma`.
 
 ---
 

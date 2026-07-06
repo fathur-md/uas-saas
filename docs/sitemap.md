@@ -10,10 +10,10 @@
 | Section | Jumlah Halaman |
 |---------|---------------|
 | 🌐 Public | 4 |
-| 👤 Customer | 6 |
-| 🏪 Merchant | 7 |
-| 🛡️ Admin | 6 |
-| **Total** | **23** |
+| 👤 Customer | 5 |
+| 🏪 Merchant | 6 |
+| 🛡️ Admin | 7 |
+| **Total** | **22** |
 
 > Beberapa halaman punya pola serupa (list, detail, form) sehingga bisa pakai komponen yang sama.
 
@@ -47,24 +47,21 @@ Landing Page (/)
 | # | Halaman | Route | Deskripsi |
 |---|---------|-------|-----------|
 | C1 | Beranda | `/customer/home` | Satu halaman bertahap: pilih area → pilih kategori → muncul daftar merchant (card: nama, rating, status buka/tutup) |
-| C2 | Detail Merchant | `/customer/merchant/:id` | Info toko, daftar produk + harga, status buka/tutup, rata-rata rating ⭐, daftar review, tombol "Pesan" |
-| C3 | Checkout | `/customer/order/new?merchant=:id` | Ringkasan produk, isi/konfirmasi alamat, pilih metode bayar (COD/QRIS), tombol "Konfirmasi Pesanan" |
-| C4 | Riwayat Pesanan | `/customer/orders` | Daftar semua pesanan (card: merchant, tanggal, status, total), filter by status |
-| C5 | Detail Pesanan | `/customer/orders/:id` | Detail lengkap: produk, status tracking, metode bayar, tombol "Saya Sudah Bayar" (jika QRIS + unpaid), tombol "Beri Review" (jika completed + belum review) |
-| C6 | Profil | `/customer/profile` | Edit nama, alamat, nomor HP |
+| C2 | Detail Merchant & Checkout | `/customer/merchant/:id` | Info toko, daftar produk + harga, dan langsung terintegrasi dengan form Checkout (pesan, alamat, metode bayar) |
+| C3 | Riwayat & Detail Pesanan | `/customer/orders` | Daftar semua pesanan lengkap dengan detail produk, tracking status, dan form ulasan dalam satu halaman (Card Expand/List). |
+| C4 | Pembayaran QRIS | `/customer/orders/:id/payment` | Halaman khusus untuk menscan kode QRIS merchant dan mengunggah bukti pembayaran via Vercel Blob. |
+| C5 | Profil | `/customer/profile` | Edit nama, alamat, nomor HP |
 
 ### Alur Customer
 
 ```
 Beranda (/customer/home)
 ├── Pilih area → pilih kategori → lihat daftar merchant
-│   └── Klik merchant → Detail Merchant (/customer/merchant/:id)
-│       └── Klik "Pesan" → Checkout (/customer/order/new?merchant=:id)
-│           └── Konfirmasi → redirect ke Detail Pesanan
+│   └── Klik merchant → Detail Merchant & Checkout (/customer/merchant/:id)
+│       └── Konfirmasi → redirect ke Riwayat Pesanan
 ├── [Riwayat] → /customer/orders
-│   └── Klik pesanan → Detail Pesanan (/customer/orders/:id)
-│       ├── Klik "Saya Sudah Bayar" (QRIS)
-│       └── Klik "Beri Review" (setelah completed)
+│   ├── Klik "Selesaikan Pembayaran" → Pembayaran QRIS (/customer/orders/:id/payment)
+│   └── Klik "Beri Review" (setelah completed langsung di card)
 └── [Profil] → /customer/profile
 ```
 
@@ -77,25 +74,21 @@ Beranda (/customer/home)
 | # | Halaman | Route | Deskripsi |
 |---|---------|-------|-----------|
 | M1 | Dashboard | `/merchant/dashboard` | Ringkasan: pesanan hari ini, total pesanan bulan ini, rating toko, status langganan |
-| M2 | Daftar Produk | `/merchant/products` | Daftar produk milik merchant (card/tabel: nama, harga, status), tombol tambah produk |
-| M3 | Tambah Produk | `/merchant/products/new` | Form: nama produk, harga, deskripsi, status tersedia/habis |
-| M4 | Edit Produk | `/merchant/products/:id/edit` | Form yang sama dengan M3, pre-filled data produk. Tombol hapus produk |
-| M5 | Daftar Pesanan | `/merchant/orders` | Daftar pesanan masuk, filter by status (pending/accepted/processing/delivering/completed) |
-| M6 | Detail Pesanan | `/merchant/orders/:id` | Detail: info customer, produk dipesan, alamat antar, metode bayar. Tombol: terima/tolak (jika pending), update status, "Konfirmasi Pembayaran" (jika QRIS waiting) |
-| M7 | Profil Toko | `/merchant/profile` | Edit: nama toko, alamat, area/kecamatan, jam operasional, status buka/tutup, upload gambar QRIS, set ongkir (Rp0 = gratis) |
+| M2 | Daftar & Tambah Produk | `/merchant/products` | Menampilkan form tambah produk dan daftar produk sekaligus untuk efisiensi UX. |
+| M3 | Edit Produk | `/merchant/products/:id/edit` | Form pre-filled data produk. Tombol hapus produk |
+| M4 | Kelola Pesanan | `/merchant/orders` | Daftar sekaligus detail pesanan. Merchant bisa langsung terima/tolak, update status, dan melihat bukti bayar QRIS. |
+| M5 | Profil Toko | `/merchant/profile` | Edit: nama toko, alamat, area/kecamatan, jam operasional, status buka/tutup, upload gambar QRIS, set ongkir |
 
 ### Alur Merchant
 
 ```
 Dashboard (/merchant/dashboard)
 ├── [Produk] → /merchant/products
-│   ├── Klik "Tambah" → /merchant/products/new → simpan → redirect ke daftar
-│   └── Klik produk → /merchant/products/:id/edit → simpan/hapus → redirect ke daftar
+│   ├── Isi Form Tambah di halaman yang sama
+│   └── Klik edit produk → /merchant/products/:id/edit → simpan/hapus → redirect ke daftar
 ├── [Pesanan] → /merchant/orders
-│   └── Klik pesanan → /merchant/orders/:id
-│       ├── Terima / Tolak (jika pending)
-│       ├── Update status (processing → delivering → completed)
-│       └── Konfirmasi Pembayaran (jika QRIS waiting_confirmation)
+│   ├── Terima / Tolak / Update status langsung di card
+│   └── Lihat & Konfirmasi Pembayaran QRIS
 └── [Profil Toko] → /merchant/profile
 ```
 
@@ -108,22 +101,23 @@ Dashboard (/merchant/dashboard)
 | # | Halaman | Route | Deskripsi |
 |---|---------|-------|-----------|
 | A1 | Dashboard | `/admin/dashboard` | Statistik: total customer, total merchant (aktif/pending), total pesanan, pesanan hari ini |
-| A2 | Kelola Merchant | `/admin/merchants` | Daftar semua merchant dengan **tab filter**: Semua \| Pending \| Aktif \| Rejected. Tombol approve/reject langsung di list (untuk pending) |
+| A2 | Persetujuan Merchant | `/admin/merchants` | Daftar pendaftar merchant yang butuh di-approve/reject. |
 | A3 | Detail Merchant | `/admin/merchants/:id` | Profil lengkap merchant, daftar produk, riwayat pesanan merchant |
-| A4 | Kelola Customer | `/admin/customers` | Daftar semua customer (nama, email, HP, tanggal daftar) |
-| A5 | Detail Customer | `/admin/customers/:id` | Profil lengkap customer, riwayat pesanan |
-| A6 | Monitoring Pesanan | `/admin/orders` | Daftar semua pesanan dari semua merchant, filter by status *(opsional)* |
+| A4 | Kelola Semua User | `/admin/users` | Manajemen gabungan untuk semua user (Customer & Merchant) + fitur Soft Delete. |
+| A5 | Detail Customer | `/admin/users/:id` | Profil lengkap customer dan riwayat pesanannya. |
+| A6 | Monitoring Pesanan | `/admin/orders` | Daftar semua pesanan lintas-toko (master view). |
+| A7 | Pengaturan | `/admin/settings` | Menampilkan informasi platform, statistik database, dan detail admin. |
 
 ### Alur Admin
 
 ```
 Dashboard (/admin/dashboard)
-├── [Merchant] → /admin/merchants
-│   ├── Tab: Pending → approve/reject langsung
-│   └── Klik merchant → /admin/merchants/:id (detail lengkap)
-├── [Customer] → /admin/customers
-│   └── Klik customer → /admin/customers/:id (detail lengkap)
-└── [Pesanan] → /admin/orders (opsional)
+├── [Persetujuan Merchant] → /admin/merchants
+│   └── Klik detail → /admin/merchants/:id
+├── [Semua User] → /admin/users
+│   └── Klik detail customer → /admin/users/:id
+├── [Semua Pesanan] → /admin/orders
+└── [Pengaturan] → /admin/settings
 ```
 
 ---
@@ -148,7 +142,7 @@ Dashboard (/admin/dashboard)
 
 **Admin:**
 - Logo
-- Dashboard | Merchant | Customer | Pesanan
+- Dashboard | Merchant | Customer | Pesanan | Pengaturan
 - Logout
 
 ---

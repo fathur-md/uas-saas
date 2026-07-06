@@ -35,7 +35,7 @@ Aplikasi ini menggunakan pendekatan **Satu Tabel User** untuk mempermudah Autent
   - `Order` (1-to-many, sebagai Customer)
   - `Review` (1-to-many, sebagai Customer)
 
-### 2. `MerchantProfile` (Ekstensi User)
+### 3. `MerchantProfile` (Ekstensi User)
 
 - `id` (String, UUID, Primary Key)
 - `userId` (String, Unique, Foreign Key ke `User`)
@@ -56,7 +56,7 @@ Aplikasi ini menggunakan pendekatan **Satu Tabel User** untuk mempermudah Autent
   - `Order` (1-to-many)
   - `Review` (1-to-many)
 
-### 3. `Product`
+### 4. `Product`
 
 - `id` (String, UUID, Primary Key)
 - `merchantId` (String, Foreign Key ke `MerchantProfile`)
@@ -70,7 +70,7 @@ Aplikasi ini menggunakan pendekatan **Satu Tabel User** untuk mempermudah Autent
   - `MerchantProfile` (many-to-1)
   - `OrderItem` (1-to-many)
 
-### 4. `Order`
+### 5. `Order`
 
 - `id` (String, UUID, Primary Key)
 - `customerId` (String, Foreign Key ke `User`)
@@ -91,7 +91,7 @@ Aplikasi ini menggunakan pendekatan **Satu Tabel User** untuk mempermudah Autent
   - `OrderItem` (1-to-many)
   - `Review` (1-to-1)
 
-### 5. `OrderItem`
+### 6. `OrderItem`
 
 - `id` (String, UUID, Primary Key)
 - `orderId` (String, Foreign Key ke `Order`)
@@ -102,7 +102,7 @@ Aplikasi ini menggunakan pendekatan **Satu Tabel User** untuk mempermudah Autent
   - `Order` (many-to-1)
   - `Product` (many-to-1)
 
-### 6. `Review`
+### 7. `Review`
 
 - `id` (String, UUID, Primary Key)
 - `orderId` (String, Unique, Foreign Key ke `Order`)

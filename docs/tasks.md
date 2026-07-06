@@ -76,24 +76,28 @@
 > *Detail task diisi setelah Fase 0 selesai, berdasarkan fitur di `planning.md`.*
 
 #### Auth & User Management
-- [ ] 2.1 — Register (customer)
-- [ ] 2.2 — Register (merchant, dengan approval flow)
-- [ ] 2.3 — Login / Logout (semua role)
-- [ ] 2.4 — Seed akun admin
+- [x] 2.1 — Setup Auth.js (Instalasi & Konfigurasi Inti)
+- [x] 2.2 — Register (customer)
+- [x] 2.3 — Register (merchant, dengan approval flow)
+- [x] 2.4 — Login / Logout & Middleware (Role-Based Routing)
+- [x] 2.5 — Seed akun admin
 
 #### Customer Features
-- [ ] 2.5 — *Diisi setelah planning final*
-- [ ] 2.6 — *Diisi setelah planning final*
-- [ ] 2.7 — *Diisi setelah planning final*
+- [x] 2.6 — Pencarian Merchant & Filter (Kategori/Area)
+- [x] 2.7 — Halaman Detail Merchant & Produk
+- [x] 2.8 — Checkout Pesanan (Buy Now) dengan COD/QRIS
+- [x] 2.9 — Riwayat Pesanan & Form Ulasan (Bintang & Teks)
 
 #### Merchant Features
-- [ ] 2.8 — *Diisi setelah planning final*
-- [ ] 2.9 — *Diisi setelah planning final*
-- [ ] 2.10 — *Diisi setelah planning final*
+- [x] 2.10 — Manajemen Produk (Tambah, Hapus, Ubah Ketersediaan)
+- [x] 2.11 — Manajemen Pesanan (State Machine: Pending -> Accepted -> Processing -> Delivering -> Completed)
 
 #### Admin Features
-- [ ] 2.11 — *Diisi setelah planning final*
-- [ ] 2.12 — *Diisi setelah planning final*
+- [x] 2.12 — Persetujuan Merchant (Approve / Reject)
+- [x] 2.13 — Kelola Users Gabungan (Soft Delete Customer & Merchant)
+- [x] 2.14 — Monitoring Semua Pesanan
+- [x] 2.15 — Detail Merchant Profile & Produk
+- [x] 2.16 — Detail Customer & Riwayat Pesanan
 
 ---
 
@@ -102,11 +106,11 @@
 > **Tujuan:** App terasa premium, tidak terlihat "tugas kuliah".
 > **Output:** UI responsif, smooth, dan konsisten.
 
-- [ ] 3.1 — Responsive design (mobile & tablet)
-- [ ] 3.2 — Loading states & skeleton
-- [ ] 3.3 — Error handling & pesan error user-friendly
-- [ ] 3.4 — Animasi & micro-interactions
-- [ ] 3.5 — SEO (meta tags, title, description)
+- [x] 3.1 — Responsive design (mobile & tablet)
+- [x] 3.2 — Loading states & skeleton
+- [x] 3.3 — Error handling & pesan error user-friendly
+- [x] 3.4 — Animasi & micro-interactions
+- [x] 3.5 — SEO (meta tags, title, description)
 
 ---
 
@@ -172,6 +176,12 @@
 | 2026-07-05 | Database Schema (Task 0.9) | Menggunakan single User table dengan relasi MerchantProfile. Menambahkan Vercel Blob untuk image hosting. |
 | 2026-07-05 | Revenue Model: Freemium | 10 pesanan gratis/bulan, mengakomodasi batasan tanpa payment gateway. |
 | 2026-07-05 | Desain: Murni Tailwind (Netral) | Menggunakan warna dasar abu-abu/hitam untuk kerangka awal. |
+| 2026-07-05 | Konsolidasi UI/UX | Menggabungkan beberapa rute di sitemap menjadi satu halaman (contoh: list & tambah produk, list & detail pesanan) demi UX yang lebih seamless dan mengurangi full page reload. |
+| 2026-07-05 | Sinkronisasi Fitur Admin | Membangun rute A3, A5, dan A6 yang sempat tertinggal demi kelengkapan dashboard Admin sesuai sitemap awal. |
+| 2026-07-06 | UX Enhancement | Menambahkan Bottom Navigation Bar (Customer) dan Hamburger Menu (Admin/Merchant) untuk navigasi mobile yang sempurna. |
+| 2026-07-06 | Clean UI | Menghapus class `dark:` secara global untuk mengunci aplikasi di mode Light Mode demi konsistensi estetika. |
+| 2026-07-06 | Dashboard Layout | Menyembunyikan komponen `<Footer />` di dalam area dashboard (Admin, Merchant, Customer) agar layar fokus pada antarmuka aplikasi. |
+| 2026-07-06 | Production Readiness | Melakukan uji `npm run build` dan aplikasi berhasil di-*compile* 100% tanpa satupun error TypeScript atau *build errors*. |
 
 ---
 
