@@ -6,5 +6,5 @@ export default NextAuth(authConfig).auth;
 
 export const config = {
   // Hanya jalankan proxy pada rute yang tidak termasuk dalam matcher berikut.
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$|.*\\.jpg$).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|.*\\.webp$|.*\\.png$|.*\\.jpg$).*)'],
 };

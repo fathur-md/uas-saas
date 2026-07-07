@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 export async function uploadPaymentProof(orderId: string, formData: FormData) {
   try {
     const session = await auth();
-    if (!session?.user || (session.user as any).role !== "CUSTOMER" || !session.user.id) {
+    if (!session?.user || session.user.role !== "CUSTOMER" || !session.user.id) {
       return { error: "Anda harus login sebagai Customer." };
     }
 
@@ -55,6 +55,7 @@ export async function uploadPaymentProof(orderId: string, formData: FormData) {
 
     revalidatePath("/customer/orders");
     revalidatePath(`/customer/orders/${order.id}/payment`);
+    revalidatePath("/merchant/orders");
 
     return { success: true, url: blob.url };
   } catch (error: any) {

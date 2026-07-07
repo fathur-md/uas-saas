@@ -1,9 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { updateOrderStatus } from "@/app/actions/order";
-import { Check, X, Truck, Package, Clock, ExternalLink } from "lucide-react";
-import SubmitButton from "@/app/components/SubmitButton";
+import { Package } from "lucide-react";
+import MerchantOrderActionButtons from "./MerchantOrderActionButtons";
 
 export const metadata = {
   title: "Kelola Pesanan | Merchant",
@@ -11,7 +10,7 @@ export const metadata = {
 
 export default async function MerchantOrdersPage() {
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "MERCHANT" || !session.user.id) {
+  if (!session?.user || session.user.role !== "MERCHANT" || !session.user.id) {
     redirect("/login");
   }
 
@@ -160,89 +159,12 @@ export default async function MerchantOrdersPage() {
                     </td>
 
                     <td className="px-4 lg:px-6 py-3 lg:py-4 align-top block lg:table-cell bg-neutral-50/30 lg:bg-transparent mt-2 lg:mt-0">
-                      <div className="flex flex-col lg:items-end gap-2">
-                        {order.status === "PENDING" && (
-                          <div className="flex flex-row lg:flex-col gap-2 w-full lg:w-auto">
-                            <form className="flex-1 lg:flex-none" action={updateOrderStatus.bind(null, order.id, "ACCEPTED", undefined)}>
-                              <SubmitButton 
-                                className="w-full justify-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium shadow-sm"
-                                icon={<Check className="h-3 w-3" />}
-                                loadingText="Menerima..."
-                              >
-                                Terima
-                              </SubmitButton>
-                            </form>
-                            <form className="flex-1 lg:flex-none" action={updateOrderStatus.bind(null, order.id, "REJECTED", undefined)}>
-                              <SubmitButton 
-                                confirmMessage="Yakin ingin MENOLAK pesanan ini?"
-                                className="w-full justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium"
-                                icon={<X className="h-3 w-3" />}
-                                loadingText="Menolak..."
-                              >
-                                Tolak
-                              </SubmitButton>
-                            </form>
-                          </div>
-                        )}
-
-                        {order.status === "ACCEPTED" && (
-                          <form className="w-full lg:w-auto" action={updateOrderStatus.bind(null, order.id, "PROCESSING", undefined)}>
-                            <SubmitButton 
-                              className="w-full justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium shadow-sm"
-                              icon={<Package className="h-3 w-3" />}
-                              loadingText="Memproses..."
-                            >
-                              Proses Pesanan
-                            </SubmitButton>
-                          </form>
-                        )}
-
-                        {order.status === "PROCESSING" && (
-                          <form className="w-full lg:w-auto" action={updateOrderStatus.bind(null, order.id, "DELIVERING", undefined)}>
-                            <SubmitButton 
-                              className="w-full justify-center bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium shadow-sm"
-                              icon={<Truck className="h-3 w-3" />}
-                              loadingText="Mengantar..."
-                            >
-                              Antar Sekarang
-                            </SubmitButton>
-                          </form>
-                        )}
-
-                        {order.status === "DELIVERING" && (
-                          <form className="w-full lg:w-auto" action={updateOrderStatus.bind(null, order.id, "COMPLETED", "PAID")}>
-                            <SubmitButton 
-                              confirmMessage="Yakin pesanan sudah SELESAI dan LUNAS?"
-                              className="w-full justify-center bg-green-600 hover:bg-green-700 text-white px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium shadow-sm"
-                              icon={<Check className="h-3 w-3" />}
-                              loadingText="Menyelesaikan..."
-                            >
-                              Selesai & Lunas
-                            </SubmitButton>
-                          </form>
-                        )}
-
-                        {/* Jika customer bayar via QRIS dan butuh konfirmasi */}
-                        {(order.paymentStatus === "WAITING_CONFIRMATION" && order.status !== "COMPLETED") && (
-                          <div className="flex flex-col gap-2 w-full lg:w-auto lg:items-end mt-2 lg:mt-0 pt-2 lg:pt-0 border-t border-neutral-light/30 lg:border-none">
-                            {order.paymentProofUrl && (
-                              <a href={order.paymentProofUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 bg-neutral-100 hover:bg-neutral-200 text-primary px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium transition border border-neutral-light/50 w-full lg:w-auto">
-                                <ExternalLink className="h-3.5 w-3.5" /> Lihat Bukti Bayar
-                              </a>
-                            )}
-                            <form className="w-full lg:w-auto" action={updateOrderStatus.bind(null, order.id, order.status, "PAID")}>
-                              <SubmitButton 
-                                confirmMessage="Yakin uang sudah masuk?"
-                                className="w-full justify-center bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 px-3 py-2 lg:py-1.5 rounded-md text-xs font-bold"
-                                loadingText="Mengonfirmasi..."
-                              >
-                                Konfirmasi Pembayaran
-                              </SubmitButton>
-                            </form>
-                          </div>
-                        )}
-                        
-                      </div>
+                      <MerchantOrderActionButtons
+                        orderId={order.id}
+                        status={order.status}
+                        paymentStatus={order.paymentStatus}
+                        paymentProofUrl={order.paymentProofUrl}
+                      />
                     </td>
                   </tr>
                 ))}

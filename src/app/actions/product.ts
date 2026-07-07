@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 
 async function getMerchantProfileId() {
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "MERCHANT" || !session.user.id) {
+  if (!session?.user || session.user.role !== "MERCHANT" || !session.user.id) {
     throw new Error("Unauthorized");
   }
   
@@ -16,11 +16,12 @@ async function getMerchantProfileId() {
   });
   
   if (!merchant) throw new Error("Profil Merchant tidak ditemukan");
+  if (!merchant.isApproved) throw new Error("Toko belum disetujui admin");
   
   return merchant.id;
 }
 
-export async function addProduct(prevState: any, formData: FormData) {
+export async function addProduct(_prevState: any, formData: FormData) {
   try {
     const merchantId = await getMerchantProfileId();
     
@@ -63,6 +64,7 @@ export async function addProduct(prevState: any, formData: FormData) {
     });
 
     revalidatePath("/merchant/products");
+    revalidatePath("/customer/home", "layout");
     return { success: true };
   } catch (error: any) {
     return { error: error.message || "Gagal menambahkan produk." };
@@ -81,12 +83,14 @@ export async function deleteProduct(productId: string) {
     });
     
     revalidatePath("/merchant/products");
-  } catch (error) {
-    console.error("Gagal menghapus produk:", error);
+    revalidatePath("/customer/home", "layout");
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message || "Gagal menghapus produk" };
   }
 }
 
-export async function updateProduct(prevState: any, formData: FormData) {
+export async function updateProduct(_prevState: any, formData: FormData) {
   let shouldRedirect = false;
   
   try {
@@ -162,6 +166,7 @@ export async function updateProduct(prevState: any, formData: FormData) {
 
   if (shouldRedirect) {
     revalidatePath("/merchant/products");
+    revalidatePath("/customer/home", "layout");
     redirect("/merchant/products");
   }
 }
@@ -181,7 +186,9 @@ export async function toggleProductStatus(productId: string, isAvailable: boolea
     });
     
     revalidatePath("/merchant/products");
-  } catch (error) {
-    console.error("Gagal mengubah status produk:", error);
+    revalidatePath("/customer/home", "layout");
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message || "Gagal mengubah status produk" };
   }
 }

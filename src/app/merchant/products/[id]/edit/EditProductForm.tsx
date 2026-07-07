@@ -95,6 +95,13 @@ export default function EditProductForm({ product }: { product: any }) {
           name="image"
           id="image"
           accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file && file.size > 5 * 1024 * 1024) {
+              alert("Ukuran gambar maksimal 5MB");
+              e.target.value = "";
+            }
+          }}
           className="mt-1 block w-full text-sm text-neutral-dark file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-neutral-light/30 file:text-primary hover:file:bg-neutral-light/50"
         />
       </div>

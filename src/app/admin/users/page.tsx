@@ -74,7 +74,7 @@ export default async function AdminUsersPage(props: {
           </div>
           <div>
             <p className="text-3xl font-bold text-neutral-900 tracking-tight">{totalActive}</p>
-            <p className="text-xs font-medium text-neutral-400 mt-1 uppercase tracking-wider">Pengguna Aktif</p>
+            <p className="text-xs font-medium text-neutral-400 mt-1 uppercase tracking-wider truncate">Pengguna Aktif</p>
           </div>
         </div>
         <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
@@ -83,7 +83,7 @@ export default async function AdminUsersPage(props: {
           </div>
           <div>
             <p className="text-3xl font-bold text-neutral-900 tracking-tight">{users.length}</p>
-            <p className="text-xs font-medium text-neutral-400 mt-1 uppercase tracking-wider">Hasil Filter</p>
+            <p className="text-xs font-medium text-neutral-400 mt-1 uppercase tracking-wider truncate">Hasil Filter</p>
           </div>
         </div>
         <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
@@ -92,7 +92,7 @@ export default async function AdminUsersPage(props: {
           </div>
           <div>
             <p className="text-3xl font-bold text-neutral-900 tracking-tight">{totalDeleted}</p>
-            <p className="text-xs font-medium text-neutral-400 mt-1 uppercase tracking-wider">Dinonaktifkan</p>
+            <p className="text-xs font-medium text-neutral-400 mt-1 uppercase tracking-wider truncate">Nonaktif</p>
           </div>
         </div>
       </div>

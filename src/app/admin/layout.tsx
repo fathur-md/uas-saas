@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Store, Settings, LogOut, ClipboardList, Menu, X, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Users, Store, Settings, LogOut, ClipboardList, Menu, X, ShieldCheck, CreditCard } from "lucide-react";
 import { logoutUser } from "@/app/actions/auth";
 
 export default function AdminLayout({
@@ -19,6 +19,7 @@ export default function AdminLayout({
     { href: "/admin/users", label: "Pengguna", icon: Users },
     { href: "/admin/orders", label: "Pesanan", icon: ClipboardList },
     { href: "/admin/merchants", label: "Merchant", icon: Store },
+    { href: "/admin/subscriptions", label: "Langganan", icon: CreditCard },
     { href: "/admin/settings", label: "Pengaturan", icon: Settings },
   ];
 

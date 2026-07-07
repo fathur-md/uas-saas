@@ -34,11 +34,11 @@ export default function OrderForm({
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="group relative overflow-hidden w-full md:w-auto px-8 py-3.5 bg-accent text-white rounded-2xl font-bold shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
+        className="group relative overflow-hidden w-full px-4 md:px-6 py-3 md:py-3.5 bg-accent text-white rounded-2xl font-bold text-sm lg:text-base shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
       >
         <div className="absolute inset-0 bg-white/20 group-hover:translate-x-full -translate-x-full transition-transform duration-500 ease-out skew-x-12" />
-        <ShoppingCart className="h-5 w-5" />
-        Pesan Sekarang
+        <ShoppingCart className="h-5 w-5 flex-shrink-0" />
+        <span className="truncate">Pesan</span>
       </button>
 
       {isOpen && (

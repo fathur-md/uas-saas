@@ -10,14 +10,25 @@ export async function logoutUser() {
   await signOut({ redirectTo: "/login" });
 }
 
-export async function loginUser(prevState: any, formData: FormData) {
+export async function loginUser(_prevState: any, formData: FormData) {
   try {
+    // Tentukan URL redirect spesifik berdasarkan role untuk mencegah double-redirect middleware
+    const email = formData.get("email") as string;
+    const user = await prisma.user.findFirst({
+      where: { email, deletedAt: null }
+    });
+    
+    let redirectTo = "/";
+    if (user) {
+      if (user.role === 'CUSTOMER') redirectTo = "/customer/home";
+      if (user.role === 'MERCHANT') redirectTo = "/merchant/dashboard";
+      if (user.role === 'ADMIN') redirectTo = "/admin/dashboard";
+    }
+    
+    formData.append("redirectTo", redirectTo);
+
     await signIn("credentials", formData);
   } catch (error) {
-    console.log("LOGIN ERROR TYPE:", (error as any).type);
-    console.log("LOGIN ERROR NAME:", (error as any).name);
-    console.log("LOGIN ERROR MESSAGE:", (error as any).message);
-
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
@@ -32,7 +43,7 @@ export async function loginUser(prevState: any, formData: FormData) {
   }
 }
 
-export async function registerCustomer(prevState: any, formData: FormData) {
+export async function registerCustomer(_prevState: any, formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
@@ -41,6 +52,10 @@ export async function registerCustomer(prevState: any, formData: FormData) {
 
   if (!name || !email || !phone || !address || !password) {
     return { error: "Semua kolom wajib diisi." };
+  }
+  
+  if (password.length < 8) {
+    return { error: "Password minimal 8 karakter." };
   }
 
   try {
@@ -77,7 +92,7 @@ export async function registerCustomer(prevState: any, formData: FormData) {
   redirect("/login?registered=true");
 }
 
-export async function registerMerchant(prevState: any, formData: FormData) {
+export async function registerMerchant(_prevState: any, formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
@@ -98,6 +113,10 @@ export async function registerMerchant(prevState: any, formData: FormData) {
     !address
   ) {
     return { error: "Semua kolom wajib (kecuali deskripsi) harus diisi." };
+  }
+  
+  if (password.length < 8) {
+    return { error: "Password minimal 8 karakter." };
   }
 
   try {

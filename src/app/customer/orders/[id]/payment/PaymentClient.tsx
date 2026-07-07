@@ -132,6 +132,13 @@ export default function PaymentClient({
               name="proofImage" 
               accept="image/*" 
               required
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file && file.size > 5 * 1024 * 1024) {
+                  alert("Ukuran gambar maksimal 5MB");
+                  e.target.value = "";
+                }
+              }}
               className="block w-full text-sm text-neutral-dark
                 file:mr-4 file:py-2 file:px-4
                 file:rounded-md file:border-0

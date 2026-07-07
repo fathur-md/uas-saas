@@ -10,7 +10,7 @@ export const metadata = {
 export default async function EditProductPage(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "MERCHANT" || !session.user.id) {
+  if (!session?.user || session.user.role !== "MERCHANT" || !session.user.id) {
     redirect("/login");
   }
 

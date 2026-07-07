@@ -11,7 +11,7 @@ export const metadata = {
 export default async function AdminOrdersPage(props: { searchParams: Promise<{ status?: string, q?: string }> }) {
   const searchParams = await props.searchParams;
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "ADMIN") {
+  if (!session?.user || session.user.role !== "ADMIN") {
     redirect("/login");
   }
 

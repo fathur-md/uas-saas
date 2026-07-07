@@ -22,13 +22,13 @@ export default function HeroSection() {
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
           <Link
             href="/register"
-            className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-sm sm:text-base font-medium text-white shadow-lg hover:bg-primary/90 hover:scale-105 transition-all duration-300"
+            className="flex justify-center text-center w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-sm sm:text-base font-medium text-white shadow-lg hover:bg-primary/90 hover:scale-105 transition-all duration-300"
           >
             Mulai Sekarang
           </Link>
           <Link
             href="/login"
-            className="w-full sm:w-auto rounded-full bg-white/80 backdrop-blur-md px-8 py-3.5 text-sm sm:text-base font-medium text-primary shadow-sm ring-1 ring-neutral-light/30 hover:bg-neutral-50 hover:scale-105 transition-all duration-300"
+            className="flex justify-center text-center w-full sm:w-auto rounded-full bg-white/80 backdrop-blur-md px-8 py-3.5 text-sm sm:text-base font-medium text-primary shadow-sm ring-1 ring-neutral-light/30 hover:bg-neutral-50 hover:scale-105 transition-all duration-300"
           >
             Masuk
           </Link>

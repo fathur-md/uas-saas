@@ -7,12 +7,12 @@ import { auth } from "@/auth";
 
 export async function createOrder(
   boundData: { productId: string; merchantId: string; price: number; shippingCost: number },
-  prevState: any,
+  _prevState: any,
   formData: FormData
 ) {
   try {
     const session = await auth();
-    if (!session?.user || (session.user as any).role !== "CUSTOMER" || !session.user.id) {
+    if (!session?.user || session.user.role !== "CUSTOMER" || !session.user.id) {
       return { error: "Anda harus login sebagai Customer untuk memesan." };
     }
     
@@ -29,8 +29,34 @@ export async function createOrder(
     
     const totalAmount = (boundData.price * quantity) + boundData.shippingCost;
     
+    // Fetch merchant for subscription limits
+    const merchant = await prisma.merchantProfile.findUnique({
+      where: { id: boundData.merchantId },
+      select: { subscriptionStatus: true, monthlyOrderCount: true, lastOrderResetDate: true }
+    });
+    
+    if (!merchant) {
+      return { error: "Merchant tidak ditemukan." };
+    }
+    
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    
+    // Hitung jumlah pesanan aktual bulan ini
+    const actualOrderCount = await prisma.order.count({
+      where: {
+        merchantId: boundData.merchantId,
+        createdAt: { gte: startOfMonth },
+        status: { notIn: ["CANCELLED", "REJECTED"] }
+      }
+    });
+    
+    if (merchant.subscriptionStatus === "FREE" && actualOrderCount >= 6) {
+      return { error: "Toko ini sedang penuh pesanan (kuota bulanan merchant gratis telah habis). Silakan coba lagi bulan depan atau pilih toko lain." };
+    }
+    
     // Mulai transaksi database
-    const order = await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Buat Order
       const newOrder = await tx.order.create({
         data: {
@@ -56,6 +82,15 @@ export async function createOrder(
         }
       });
       
+      // 3. (Kosmetik) Update Kuota Merchant untuk record
+      await tx.merchantProfile.update({
+        where: { id: boundData.merchantId },
+        data: {
+          monthlyOrderCount: actualOrderCount + 1,
+          lastOrderResetDate: now,
+        }
+      });
+      
       return newOrder;
     });
 
@@ -64,6 +99,7 @@ export async function createOrder(
     return { error: error.message || "Gagal membuat pesanan, silakan coba lagi." };
   }
   
+  revalidatePath("/merchant/orders");
   // Jika sukses, lempar ke halaman riwayat pesanan
   redirect("/customer/orders");
 }
@@ -72,17 +108,17 @@ export async function updateOrderStatus(
   orderId: string, 
   status: "PENDING" | "ACCEPTED" | "REJECTED" | "PROCESSING" | "DELIVERING" | "COMPLETED" | "CANCELLED", 
   paymentStatus?: "PAID" | "UNPAID" | "WAITING_CONFIRMATION",
-  formData?: FormData
+  _formData?: FormData
 ) {
   try {
     const session = await auth();
-    if (!session?.user || (session.user as any).role !== "MERCHANT" || !session.user.id) {
-      throw new Error("Unauthorized");
+    if (!session?.user || session.user.role !== "MERCHANT" || !session.user.id) {
+      return { error: "Unauthorized" };
     }
 
     const merchantId = (await prisma.merchantProfile.findUnique({ where: { userId: session.user.id } }))?.id;
     
-    if (!merchantId) throw new Error("Profil Merchant tidak ditemukan");
+    if (!merchantId) return { error: "Profil Merchant tidak ditemukan" };
 
     const updateData: any = { status };
     if (paymentStatus) {
@@ -97,38 +133,41 @@ export async function updateOrderStatus(
       data: updateData,
     });
 
-  } catch (error) {
+    revalidatePath("/merchant/orders");
+    revalidatePath("/customer/orders");
+    return { success: true };
+  } catch (error: any) {
     console.error("Gagal mengupdate pesanan:", error);
-    throw new Error("Gagal mengupdate pesanan, silakan coba lagi.");
+    return { error: error.message || "Gagal mengupdate pesanan, silakan coba lagi." };
   }
-  
-  revalidatePath("/merchant/orders");
 }
 
-export async function cancelOrder(orderId: string, formData?: FormData) {
+export async function cancelOrder(orderId: string, _formData?: FormData) {
   try {
     const session = await auth();
-    if (!session?.user || (session.user as any).role !== "CUSTOMER" || !session.user.id) {
-      throw new Error("Unauthorized");
+    if (!session?.user || session.user.role !== "CUSTOMER" || !session.user.id) {
+      return { error: "Unauthorized" };
     }
 
     const order = await prisma.order.findUnique({
       where: { id: orderId, customerId: session.user.id },
     });
 
-    if (!order) throw new Error("Pesanan tidak ditemukan");
+    if (!order) return { error: "Pesanan tidak ditemukan" };
     if (order.status !== "PENDING") {
-      throw new Error("Hanya pesanan berstatus Menunggu Konfirmasi yang bisa dibatalkan.");
+      return { error: "Hanya pesanan berstatus Menunggu Konfirmasi yang bisa dibatalkan." };
     }
 
     await prisma.order.update({
       where: { id: orderId },
       data: { status: "CANCELLED" },
     });
-  } catch (error) {
-    console.error("Gagal membatalkan pesanan:", error);
-    throw new Error("Gagal membatalkan pesanan, silakan coba lagi.");
-  }
 
-  revalidatePath("/customer/orders");
+    revalidatePath("/customer/orders");
+    revalidatePath("/merchant/orders");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Gagal membatalkan pesanan:", error);
+    return { error: error.message || "Gagal membatalkan pesanan, silakan coba lagi." };
+  }
 }

@@ -14,7 +14,7 @@ export default async function PaymentPage(props: { params: Promise<{ id: string 
   const orderId = params.id;
   
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "CUSTOMER" || !session.user.id) {
+  if (!session?.user || session.user.role !== "CUSTOMER" || !session.user.id) {
     redirect("/login");
   }
 

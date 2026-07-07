@@ -9,11 +9,11 @@
 
 | Section | Jumlah Halaman |
 |---------|---------------|
-| 🌐 Public | 4 |
+| 🌐 Public | 9 |
 | 👤 Customer | 5 |
 | 🏪 Merchant | 5 |
-| 🛡️ Admin | 7 |
-| **Total** | **21** |
+| 🛡️ Admin | 8 |
+| **Total** | **27** |
 
 > Beberapa halaman punya pola serupa (list, detail, form) sehingga bisa pakai komponen yang sama.
 
@@ -26,7 +26,7 @@
 | P1 | Landing Page | `/` | Hero section, penjelasan platform, CTA daftar/login |
 | P2 | Login | `/login` | Form login (email + password). Satu halaman untuk semua role — sistem deteksi role otomatis → redirect ke dashboard masing-masing |
 | P3 | Register Customer | `/register` | Form: nama, email, password, nomor HP, alamat |
-| P4 | Register Merchant | `/register/merchant` | Form: nama toko, email, password, nomor HP, alamat toko, area/kecamatan, kategori (galon/gas/laundry). Setelah daftar → status `pending` |
+| P4 | Register Merchant | `/mitra` | Form: nama toko, email, password, nomor HP, alamat toko, area/kecamatan, kategori (galon/gas/laundry). Setelah daftar → status `pending` |
 
 ### Alur Public
 
@@ -37,7 +37,7 @@ Landing Page (/)
 │   ├── Merchant → /merchant/dashboard
 │   └── Admin → /admin/dashboard
 ├── [Daftar Customer] → /register
-└── [Daftar Merchant] → /register/merchant
+└── [Daftar Merchant] → /mitra
 ```
 
 ---
@@ -69,7 +69,7 @@ Beranda (/customer/home)
 
 ## 🏪 Merchant (Setelah Login + Approved)
 
-> **Catatan:** Jika merchant belum di-approve admin, semua halaman tetap tampil tapi **disabled/locked** dengan banner "Akun Anda sedang ditinjau admin".
+> **Catatan:** Jika merchant belum di-approve admin, akses ke halaman Produk dan Pesanan akan diblokir (soft-block), namun Dashboard dan Profil Toko tetap bisa diakses secara penuh.
 
 | # | Halaman | Route | Deskripsi |
 |---|---------|-------|-----------|
@@ -142,7 +142,7 @@ Dashboard (/admin/dashboard)
 
 **Admin:**
 - Logo
-- Dashboard | Merchant | Customer | Pesanan | Pengaturan
+- Dashboard | Users | Orders | Merchants | Langganan | Settings
 - Logout
 
 ---
@@ -157,3 +157,19 @@ Dashboard (/admin/dashboard)
 | Detail pesanan | C3, M4, A6 — mirip, tapi beda tombol action |
 | Tabel user | A4 (semua user) & A2 (daftar merchant) — pola serupa |
 | Status badge | Semua halaman pesanan — komponen kecil reusable |
+
+---
+
+## 📊 Perbandingan Rencana Awal vs Hasil Akhir (Source of Truth)
+
+> Bagian ini merupakan hasil *audit* antara rencana *sitemap* awal dengan struktur folder direktori fisik sesungguhnya yang ada di dalam `src/app`.
+
+### 1. Pertumbuhan Rute Publik (SEO & Landing)
+- **Rencana Awal:** Hanya 4 halaman publik (`/`, `/login`, `/register`, `/register/merchant`).
+- **Hasil Akhir:** Terjadi ekspansi masif menjadi **9 halaman publik**! Rute `/register/merchant` disempurnakan menjadi landing page berdedikasi tinggi di `/mitra`. Selain itu, struktur direktori membuktikan adanya penambahan rute statis untuk footer (SEO & Kepercayaan) seperti: `/about`, `/faq`, `/contact-us`, `/privacy`, dan `/terms`.
+
+### 2. Akurasi Rute Dinamis (App Router)
+- Segala rute *dynamic segment* yang direncanakan (seperti `/customer/merchant/:id` dan `/admin/users/:id`) telah sukses direalisasikan di dalam folder `src/app` dengan struktur penamaan kurung siku Next.js (misal: `src/app/customer/merchant/[id]/page.tsx`).
+
+### 3. Penambahan Ruang Dasbor Admin
+- Berdasarkan penemuan fitur langganan, struktur hasil akhir di `src/app/admin` memiliki satu tambahan rute krusial yang tidak direncanakan di awal, yaitu `/admin/subscriptions`. Rute ini ditambahkan agar Admin memiliki halaman khusus untuk menyetujui pengajuan langganan *Premium* dari para Mitra (Merchant).

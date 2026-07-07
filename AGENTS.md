@@ -96,6 +96,7 @@ prisma/schema.prisma            # 6 models, 5 enums (Account/Session/Verificatio
 
 - Database managed via Prisma migrations (`npx prisma migrate dev`), avoiding `db push` for production stability.
 - Seed script exists: `prisma/seed.ts`. Membutuhkan env var `ADMIN_SEED_PASSWORD` (contoh kredensial default: admin@siapsedia.com / sesuai nilai env).
+- **CRITICAL Dev Workflow (Next.js 16 / Turbopack)**: Setelah agen AI menjalankan `npx prisma migrate dev` atau `npx prisma generate`, agen WAJIB secara proaktif memberikan instruksi kepada User untuk **menghapus cache Turbopack dan me-restart server**. (1. Matikan server dengan `Ctrl+C`. 2. Hapus cache: `rm -rf .next`. 3. Jalankan ulang `npm run dev`). Hal ini WAJIB dilakukan karena Next.js 16 memiliki sistem *caching* agresif yang tidak akan membaca Prisma Client baru hanya dengan sekadar me-_restart_ server.
 
 ### Commands
 

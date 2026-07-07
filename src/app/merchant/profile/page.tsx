@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import MerchantProfileForm from "./ProfileForm";
+import SubscriptionManager from "../components/SubscriptionManager";
 
 export const metadata = {
   title: "Profil Toko | Merchant",
@@ -9,13 +10,13 @@ export const metadata = {
 
 export default async function MerchantProfilePage() {
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "MERCHANT" || !session.user.id) {
+  if (!session?.user || session.user.role !== "MERCHANT" || !session.user.id) {
     redirect("/login");
   }
 
   const merchant = await prisma.merchantProfile.findUnique({
     where: { userId: session.user.id },
-    include: { user: true },
+    include: { user: true, subscriptionRequest: true },
   });
 
   if (!merchant) {
@@ -33,6 +34,10 @@ export default async function MerchantProfilePage() {
 
       <div className="bg-white border border-neutral-light/50 p-6 sm:p-8 rounded-xl shadow-sm">
         <MerchantProfileForm merchant={merchant} />
+        <SubscriptionManager 
+          currentStatus={merchant.subscriptionStatus} 
+          hasPendingRequest={merchant.subscriptionRequest?.status === "PENDING"}
+        />
       </div>
     </div>
   );

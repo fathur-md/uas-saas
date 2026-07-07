@@ -4,10 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 
-export async function submitReview(prevState: any, formData: FormData) {
+export async function submitReview(_prevState: any, formData: FormData) {
   try {
     const session = await auth();
-    if (!session?.user || (session.user as any).role !== "CUSTOMER" || !session.user.id) {
+    if (!session?.user || session.user.role !== "CUSTOMER" || !session.user.id) {
       return { error: "Unauthorized" };
     }
     

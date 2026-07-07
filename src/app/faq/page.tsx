@@ -55,7 +55,7 @@ const faqCategories = [
       },
       {
         q: "Apakah ada potongan pendapatan atau biaya admin per transaksi?",
-        a: "Tidak ada potongan komisi per transaksi! SiapSedia menggunakan model berlangganan (SaaS Freemium). Setiap Mitra mendapatkan kuota 10 pesanan pertama secara GRATIS setiap bulannya. Jika pesanan Anda ramai dan melebihi kuota tersebut, Anda hanya perlu membayar biaya langganan bulanan tetap yang sangat terjangkau. 100% margin keuntungan pesanan tetap milik Anda."
+        a: "Tidak ada potongan komisi per transaksi! SiapSedia menggunakan model berlangganan (SaaS Freemium). Setiap Mitra mendapatkan kuota 6 pesanan pertama secara GRATIS setiap bulannya. Jika pesanan Anda ramai dan melebihi kuota tersebut, Anda hanya perlu membayar biaya langganan bulanan tetap yang sangat terjangkau. 100% margin keuntungan pesanan tetap milik Anda."
       }
     ]
   }

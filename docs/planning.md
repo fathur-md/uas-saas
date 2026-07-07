@@ -52,7 +52,7 @@ Sebuah marketplace yang menghubungkan **pelanggan** dengan **penyedia jasa lokal
 | **Merchant** | Daftar toko, kelola produk & pesanan |
 | **Admin** | Approve/reject merchant, monitoring |
 
-Estimasi: ~12-15 halaman
+Estimasi Rencana: ~12-15 halaman (Hasil Akhir: 27 halaman)
 
 ---
 
@@ -141,7 +141,7 @@ Estimasi: ~12-15 halaman
 
 ## 0.6 Revenue Model Platform
 
-**Freemium SaaS:** Merchant mendapatkan 10 pesanan gratis setiap bulan. Jika melebihi kuota, merchant harus berlangganan sebesar Rp 29.000/bulan (atau Rp 290.000/tahun) kepada Admin untuk menerima pesanan tak terbatas tanpa potongan komisi transaksi.
+**Freemium SaaS:** Merchant mendapatkan 6 pesanan gratis setiap bulan. Jika melebihi kuota, merchant harus berlangganan sebesar Rp 29.000/bulan (atau Rp 290.000/tahun) kepada Admin untuk menerima pesanan tak terbatas tanpa potongan komisi transaksi.
 
 > *Detail implementasi ditentukan saat database schema.*
 
@@ -181,8 +181,8 @@ Customer pesan → Merchant terima/tolak → Diproses → Diantar → Selesai �
 |---|-------|--------|
 | 1 | ❌ Payment gateway (Midtrans, Xendit) | Sudah pakai QRIS statis |
 | 2 | ❌ Real-time GPS tracking pengiriman | Diganti Manual Status Tracking |
-| 3 | ⚠️ Real-time chat (customer ↔ merchant) | Masih dalam pertimbangan |
-| 4 | ⚠️ Push notification | Masih dalam pertimbangan |
+| 3 | ❌ Real-time chat (customer ↔ merchant) | Dihapus untuk fokus ke alur utama transaksi MVP |
+| 4 | ❌ Push notification | Diganti dengan Cross-Invalidation Cache (Auto-Refresh Dasbor) |
 | 5 | ❌ Multi-bahasa (i18n) | Cukup Bahasa Indonesia |
 | 6 | ❌ Mobile app (native) / PWA | Akan dibangun sebagai PWA |
 | 7 | ❌ Sistem promo / kupon / diskon | Bukan fitur inti |
@@ -219,3 +219,27 @@ Customer pesan → Merchant terima/tolak → Diproses → Diantar → Selesai �
 
 **SiapSedia**
 *Makna: Merchant selalu siap dan sedia memenuhi kebutuhan harian pengguna.*
+
+---
+
+## 📊 Perbandingan Rencana Awal vs Hasil Akhir (Source of Truth)
+
+> Merupakan evaluasi pamungkas untuk membuktikan bahwa spesifikasi teknologi (Tech Stack) dan eksekusi platform sesuai dengan data fisik di `package.json`, `.env`, dan direktori fisik lainnya.
+
+### 1. Evolusi Tech Stack (Berdasarkan `package.json`)
+- **Rencana Awal:** Next.js 16, Tailwind v4, Prisma.
+- **Hasil Akhir:** 
+  - Menggunakan versi *bleeding-edge* **Next.js 16.2.10** dan **React 19.2.4**.
+  - Tailwind CSS menggunakan arsitektur terbaru **v4 Alpha** (`@tailwindcss/postcss`).
+  - ORM menggunakan **Prisma v7.8.0** dengan *adapter Serverless* (`@prisma/adapter-neon`).
+  - Autentikasi dikonfigurasi menggunakan standar tertinggi saat ini: **Auth.js v5 beta** (`next-auth@5.0.0-beta.31`).
+
+### 2. Infrastruktur Cloud (Berdasarkan `.env`)
+- **Rencana Awal:** Neon DB dan Vercel Blob.
+- **Hasil Akhir:** Integrasi sukses absolut. File `.env` memetakan dua jenis koneksi Neon secara bersamaan (koneksi reguler dan *connection pooler* khusus serverless) guna mencegah *bottleneck* koneksi. Parameter *environment* `BLOB_READ_WRITE_TOKEN` juga terpasang kokoh untuk sistem unggah bukti bayar (QRIS).
+
+### 3. Optimalisasi Aset Media (Berdasarkan `public/`)
+- Pada fase *planning* tidak disinggung mengenai konvensi format aset, namun pada rilis *production* (hasil akhir), logo utama aplikasi diekspor ke dalam format *Next-Gen* **WebP** (`logo.webp`) selain versi PNG reguler. Ini merupakan langkah drastis untuk mengompresi *size* gambar dan mendongkrak performa skor Lighthouse.
+
+### 4. Konsistensi Batasan MVP (Tercapai 100%)
+- Janji pembatasan *Scope MVP* ditepati dengan akurasi maksimal. Ketiadaan gerbang pembayaran otomatis (*payment gateway* pihak ketiga seperti Midtrans) direalisasikan dengan elegan lewat fungsi **Unggah Bukti Transfer QRIS**. Fitur ini terbukti menghemat biaya lisensi API bulanan tapi tetap mampu menjaga alur verifikasi transaksi yang modern bagi admin/merchant.

@@ -19,14 +19,14 @@ export default function CtaSection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link 
               href="/register" 
-              className="flex items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-full hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+              className="flex w-full sm:w-auto justify-center text-center items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-full hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]"
             >
               Mulai Sekarang Gratis
               <ArrowRight className="h-5 w-5" />
             </Link>
             <Link 
               href="/mitra" 
-              className="flex items-center gap-2 bg-white/5 text-white font-semibold px-8 py-4 rounded-full border border-white/20 hover:bg-white/10 transition-colors"
+              className="flex w-full sm:w-auto justify-center text-center items-center gap-2 bg-white/5 text-white font-semibold px-8 py-4 rounded-full border border-white/20 hover:bg-white/10 transition-colors"
             >
               Daftar Sebagai Mitra
             </Link>

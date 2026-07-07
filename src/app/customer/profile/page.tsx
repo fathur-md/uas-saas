@@ -10,7 +10,7 @@ export const metadata = {
 
 export default async function CustomerProfilePage() {
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "CUSTOMER" || !session.user.id) {
+  if (!session?.user || session.user.role !== "CUSTOMER" || !session.user.id) {
     redirect("/login");
   }
 

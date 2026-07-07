@@ -11,7 +11,7 @@ export const metadata = {
 export default async function AdminUserDetailPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "ADMIN") {
+  if (!session?.user || session.user.role !== "ADMIN") {
     redirect("/login");
   }
 

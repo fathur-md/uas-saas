@@ -20,22 +20,16 @@ export default function UserActions({ userId, isDeleted, isSelf }: UserActionsPr
 
   const handleRestore = () => {
     startTransition(async () => {
-      try {
-        await restoreUser(userId);
-      } catch (e: any) {
-        alert(e.message);
-      }
+      const res = await restoreUser(userId);
+      if (res?.error) alert(res.error);
     });
   };
 
   const handleDelete = () => {
     if (!confirm("Yakin ingin menonaktifkan pengguna ini?")) return;
     startTransition(async () => {
-      try {
-        await deleteUser(userId);
-      } catch (e: any) {
-        alert(e.message);
-      }
+      const res = await deleteUser(userId);
+      if (res?.error) alert(res.error);
     });
   };
 

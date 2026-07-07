@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { Package, Clock, CheckCircle, Truck, MapPin, CreditCard, XCircle, FileText, Store } from "lucide-react";
 import ReviewForm from "./ReviewForm";
 import Link from "next/link";
-import { cancelOrder } from "@/app/actions/order";
+import CustomerOrderActionButtons from "./CustomerOrderActionButtons";
 
 export const metadata = {
   title: "Pesanan Saya | Customer",
@@ -12,7 +12,7 @@ export const metadata = {
 
 export default async function CustomerOrdersPage() {
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "CUSTOMER" || !session.user.id) {
+  if (!session?.user || session.user.role !== "CUSTOMER" || !session.user.id) {
     redirect("/login");
   }
 
@@ -171,11 +171,7 @@ export default async function CustomerOrdersPage() {
                   {/* Customer Action Buttons */}
                   <div className="mt-8 flex flex-wrap gap-3">
                     {order.status === "PENDING" && (
-                      <form action={cancelOrder.bind(null, order.id)}>
-                        <button className="flex items-center gap-2 text-sm font-bold text-rose-600 bg-rose-50 hover:bg-rose-600 hover:text-white border border-rose-200 px-6 py-3 rounded-xl transition-all shadow-sm">
-                          <XCircle className="h-4 w-4" /> Batalkan Pesanan
-                        </button>
-                      </form>
+                      <CustomerOrderActionButtons orderId={order.id} />
                     )}
                     
                     {order.paymentMethod === "QRIS" && order.paymentStatus === "WAITING_CONFIRMATION" && order.status !== "CANCELLED" && order.status !== "REJECTED" && (

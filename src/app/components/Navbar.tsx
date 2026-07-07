@@ -3,6 +3,7 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { logoutUser } from "@/app/actions/auth";
 import { LogOut, LogIn } from "lucide-react";
+import NavbarMobileMenu from "./NavbarMobileMenu";
 
 function getDashboardPath(role: string): string {
   switch (role) {
@@ -13,22 +14,13 @@ function getDashboardPath(role: string): string {
   }
 }
 
-function getRoleLabel(role: string): string {
-  switch (role) {
-    case "CUSTOMER": return "Customer";
-    case "MERCHANT": return "Merchant";
-    case "ADMIN": return "Admin";
-    default: return "";
-  }
-}
-
 export default async function Navbar() {
   const session = await auth();
   const user = session?.user;
   const role = (user as any)?.role as string | undefined;
 
   return (
-    <header className="sticky top-0 z-50 flex justify-center pt-6 px-4 pointer-events-none">
+    <header className="sticky top-0 z-50 flex justify-center pt-3 md:pt-4 px-4 pointer-events-none">
       <div className="pointer-events-auto flex w-full max-w-4xl items-center justify-between rounded-full bg-white/70 px-4 py-3 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/60 ring-1 ring-neutral-light/20">
         
         {/* KIRI: LOGO */}
@@ -73,6 +65,8 @@ export default async function Navbar() {
               </Link>
             </>
           )}
+          
+          <NavbarMobileMenu user={user} role={role} dashboardPath={getDashboardPath(role ?? "")} />
         </div>
       </div>
       </div>

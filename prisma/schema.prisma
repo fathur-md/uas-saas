@@ -81,6 +81,7 @@ model MerchantProfile {
   products Product[]
   orders   Order[]
   reviews  Review[]
+  subscriptionRequest SubscriptionRequest?
 }
 
 model Product {
@@ -144,4 +145,12 @@ model Review {
   rating    Int
   comment   String?
   createdAt DateTime @default(now())
+}
+
+model SubscriptionRequest {
+  id         String          @id @default(uuid())
+  merchantId String          @unique
+  merchant   MerchantProfile @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  status     String          @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt  DateTime        @default(now())
 }

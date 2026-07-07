@@ -1,11 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import AddProductForm from "./AddProductForm";
-import { deleteProduct, toggleProductStatus } from "@/app/actions/product";
 import { Package } from "lucide-react";
-import SubmitButton from "@/app/components/SubmitButton";
+import ProductActionButtons from "./ProductActionButtons";
 
 export const metadata = {
   title: "Kelola Produk | Merchant",
@@ -13,7 +11,7 @@ export const metadata = {
 
 export default async function MerchantProductsPage() {
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "MERCHANT" || !session.user.id) {
+  if (!session?.user || session.user.role !== "MERCHANT" || !session.user.id) {
     redirect("/login");
   }
 
@@ -103,39 +101,11 @@ export default async function MerchantProductsPage() {
                     </p>
                   )}
                   
-                  <div className="mt-auto flex items-center justify-between pt-4 border-t border-neutral-light/50">
-                    <form action={toggleProductStatus.bind(null, product.id, !product.isAvailable)}>
-                      <SubmitButton 
-                        className={`text-[11px] font-bold px-2 py-1 rounded border uppercase tracking-wider transition-colors ${
-                          product.isAvailable 
-                            ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100" 
-                            : "bg-neutral-50 text-neutral-600 border-neutral-200 hover:bg-neutral-100"
-                        }`}
-                        loadingText="..."
-                      >
-                        {product.isAvailable ? "Tersedia" : "Kosong"}
-                      </SubmitButton>
-                    </form>
-                    
-                    <div className="flex items-center gap-3">
-                      <Link
-                        href={`/merchant/products/${product.id}/edit`}
-                        className="text-xs font-bold text-accent hover:text-accent-dark transition-colors"
-                      >
-                        Edit
-                      </Link>
-
-                      <form action={deleteProduct.bind(null, product.id)}>
-                        <SubmitButton 
-                          confirmMessage={`Yakin ingin menghapus produk "${product.name}" secara permanen?`}
-                          className="text-xs font-bold text-rose-600 hover:text-rose-700 transition-colors"
-                          loadingText="Hapus..."
-                        >
-                          Hapus
-                        </SubmitButton>
-                      </form>
-                    </div>
-                  </div>
+                  <ProductActionButtons 
+                    productId={product.id} 
+                    isAvailable={product.isAvailable} 
+                    productName={product.name} 
+                  />
                 </div>
               </div>
             ))}

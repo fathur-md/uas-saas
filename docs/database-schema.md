@@ -76,7 +76,7 @@ Aplikasi ini menggunakan pendekatan **Satu Tabel User** untuk mempermudah Autent
 - `id` (String, UUID, Primary Key)
 - `customerId` (String, Foreign Key ke `User`)
 - `merchantId` (String, Foreign Key ke `MerchantProfile`)
-- `status` (Enum: `PENDING`, `ACCEPTED`, `PROCESSING`, `DELIVERING`, `COMPLETED`, `CANCELLED`, Default: `PENDING`)
+- `status` (Enum: `PENDING`, `ACCEPTED`, `PROCESSING`, `DELIVERING`, `COMPLETED`, `CANCELLED`, `REJECTED`, Default: `PENDING`)
 - `paymentStatus` (Enum: `UNPAID`, `WAITING_CONFIRMATION`, `PAID`, Default: `UNPAID`)
 - `paymentMethod` (String) - _Contoh: COD, QRIS_
 - `paymentProofUrl` (String, opsional)
@@ -116,3 +116,20 @@ Aplikasi ini menggunakan pendekatan **Satu Tabel User** untuk mempermudah Autent
   - `Order` (1-to-1)
   - `User` (many-to-1)
   - `MerchantProfile` (many-to-1)
+
+---
+
+## 📊 Perbandingan Rencana Awal vs Hasil Akhir (Source of Truth)
+
+> Bagian ini merupakan validasi bahwa arsitektur database yang direncanakan telah dieksekusi secara nyata pada kode *production*. Data di bawah ditarik langsung dari file fisik `prisma/schema.prisma`.
+
+### 1. Kesesuaian Entitas & Relasi
+- **Rencana:** Menggunakan struktur 1 Tabel Sentral (`User`) dengan ekstensi (`MerchantProfile`).
+- **Hasil Akhir:** Terimplementasi persis. Prisma merekam relasi *One-to-One* dan *One-to-Many* secara sempurna antara `User` dan `MerchantProfile` menggunakan tipe data UUID sebagai *Primary Key*.
+
+### 2. Evolusi Schema (Penambahan Fitur)
+Terdapat satu entitas **baru** yang ditambahkan ke hasil akhir yang sebelumnya tidak ada di rencana awal:
+- **`SubscriptionRequest`**: Model baru ini lahir karena kebutuhan bisnis di mana Merchant ingin mengajukan langganan *Premium* (kuota *unlimited*) kepada Admin, sehingga membutuhkan tabel terpisah untuk melacak status persetujuan langganan (`PENDING`, `APPROVED`, `REJECTED`).
+
+### 3. Keamanan Data (Soft Delete)
+- Sesuai dengan hasil akhir, kolom `deletedAt DateTime?` pada tabel `User` telah terimplementasi penuh. Hal ini membuktikan bahwa sistem tidak menggunakan *hard delete*, melainkan *soft delete* untuk menjaga agar data transaksi (`Order`) dan ulasan (`Review`) tidak ikut musnah (Cascade Delete) saat akun merchant/pelanggan dihapus secara administratif oleh Admin.

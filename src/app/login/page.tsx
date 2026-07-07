@@ -76,7 +76,7 @@ function LoginForm() {
               <div className="flex items-center justify-between">
                 <label className="block text-sm font-medium leading-6 text-primary">Kata Sandi</label>
               </div>
-              <input name="password" type="password" required className="mt-1 block w-full rounded-xl border-0 py-3 px-4 text-primary ring-1 ring-inset ring-neutral-light/50 bg-background/50 focus:ring-2 focus:ring-accent transition-all sm:text-sm" />
+              <input name="password" type="password" required autoComplete="current-password" className="mt-1 block w-full rounded-xl border-0 py-3 px-4 text-primary ring-1 ring-inset ring-neutral-light/50 bg-background/50 focus:ring-2 focus:ring-accent transition-all sm:text-sm" />
             </div>
 
             <div className="pt-4">

@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { ShoppingCart, Clock, DollarSign, Star, TrendingUp, Store } from "lucide-react";
+import SubscriptionManager from "../components/SubscriptionManager";
 
 export const metadata = {
   title: "Dashboard | Merchant",
@@ -14,7 +15,7 @@ export default async function MerchantDashboard() {
   // Get merchant profile
   const merchant = await prisma.merchantProfile.findUnique({
     where: { userId: session.user.id },
-    include: { reviews: true },
+    include: { reviews: true, subscriptionRequest: true },
   });
 
   if (!merchant) {
@@ -170,14 +171,27 @@ export default async function MerchantDashboard() {
             </span>
             <span>
               Pesanan bulan ini:{" "}
-              <span className="font-bold text-primary">{merchant.monthlyOrderCount} / 10</span>
+              <span className="font-bold text-primary">
+                {merchant.subscriptionStatus === "PREMIUM" 
+                  ? `${ordersThisMonth.length} (Tanpa Batas)` 
+                  : `${ordersThisMonth.length} / 6`}
+              </span>
             </span>
-            {merchant.subscriptionStatus === "FREE" && merchant.monthlyOrderCount >= 8 && (
+            {merchant.subscriptionStatus === "FREE" && ordersThisMonth.length >= 5 && (
               <span className="flex items-center gap-1 text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200 text-xs">
                 Kuota Menipis
               </span>
             )}
           </div>
+        </div>
+        
+        {/* Kontrol Langganan */}
+        <div className="mt-4 pt-4 border-t border-neutral-light/50">
+          <SubscriptionManager 
+            currentStatus={merchant.subscriptionStatus} 
+            compact={true} 
+            hasPendingRequest={merchant.subscriptionRequest?.status === "PENDING"}
+          />
         </div>
       </div>
 

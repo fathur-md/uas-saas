@@ -150,7 +150,7 @@ export default function MitraLandingPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-semibold leading-6 text-primary mb-2">Kata Sandi</label>
-                  <input name="password" type="password" required className="block w-full rounded-xl bg-background border border-neutral-light/50 py-3.5 px-4 text-primary focus:ring-2 focus:ring-accent focus:border-accent transition-all sm:text-sm shadow-sm" />
+                  <input type="password" name="password" id="password" required autoComplete="new-password" placeholder="••••••••" className="block w-full rounded-xl bg-background border border-neutral-light/50 py-3.5 px-4 text-primary focus:ring-2 focus:ring-accent focus:border-accent transition-all sm:text-sm shadow-sm" />
                 </div>
               </div>
             </div>

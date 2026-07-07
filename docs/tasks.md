@@ -17,12 +17,12 @@
 
 ### Konvensi Status
 
-| Simbol | Arti |
-|--------|------|
-| `[ ]` | Belum dikerjakan |
-| `[/]` | Sedang dikerjakan |
-| `[x]` | Selesai |
-| `[-]` | Dibatalkan / tidak jadi |
+| Simbol | Arti                    |
+| ------ | ----------------------- |
+| `[ ]`  | Belum dikerjakan        |
+| `[/]`  | Sedang dikerjakan       |
+| `[x]`  | Selesai                 |
+| `[-]`  | Dibatalkan / tidak jadi |
 
 ### Jika Ada Perubahan Ide / Scope
 
@@ -73,9 +73,10 @@
 > **Tujuan:** Semua fitur wajib berfungsi.
 > **Output:** App bisa di-demo end-to-end.
 >
-> *Detail task diisi setelah Fase 0 selesai, berdasarkan fitur di `planning.md`.*
+> _Detail task diisi setelah Fase 0 selesai, berdasarkan fitur di `planning.md`._
 
 #### Auth & User Management
+
 - [x] 2.1 — Setup Auth.js (Instalasi & Konfigurasi Inti)
 - [x] 2.2 — Register (customer)
 - [x] 2.3 — Register (merchant, dengan approval flow)
@@ -83,16 +84,19 @@
 - [x] 2.5 — Seed akun admin
 
 #### Customer Features
+
 - [x] 2.6 — Pencarian Merchant & Filter (Kategori/Area)
 - [x] 2.7 — Halaman Detail Merchant & Produk
 - [x] 2.8 — Checkout Pesanan (Buy Now) dengan COD/QRIS
 - [x] 2.9 — Riwayat Pesanan & Form Ulasan (Bintang & Teks)
 
 #### Merchant Features
+
 - [x] 2.10 — Manajemen Produk (Tambah, Hapus, Ubah Ketersediaan)
 - [x] 2.11 — Manajemen Pesanan (State Machine: Pending -> Accepted -> Processing -> Delivering -> Completed)
 
 #### Admin Features
+
 - [x] 2.12 — Persetujuan Merchant (Approve / Reject)
 - [x] 2.13 — Kelola Users Gabungan (Soft Delete Customer & Merchant)
 - [x] 2.14 — Monitoring Semua Pesanan
@@ -145,57 +149,62 @@
 - [ ] ✅ Studi kasus nyata & menyelesaikan masalah → lihat `planning.md`
 - [ ] ✅ Semua fitur terbuka untuk penilaian
 - [ ] ✅ Bahasa pemrograman web
-- [ ] ✅ Bisa diakses online (URL: _______)
+- [ ] ✅ Bisa diakses online (URL: **___**)
 - [ ] ✅ Pakai database
 - [ ] ✅ Dokumentasi PDF
-- [ ] ✅ Video presentasi (YouTube: _______)
+- [ ] ✅ Video presentasi (YouTube: **___**)
 
 ---
 
-## Log Keputusan
+## Log Keputusan & Arsitektur
 
-> Catat setiap keputusan penting atau perubahan arah di sini.
-> Format: `[tanggal] — keputusan — alasan`
+> Ringkasan keputusan penting terkait fitur, desain (UI/UX), dan teknis yang mendasari aplikasi SiapSedia, beserta alasan di baliknya.
 
-| Tanggal | Keputusan | Alasan |
-|---------|-----------|--------|
-| 2026-07-05 | Pilih Opsi C (2 sisi + admin) | Paling lengkap & realistis untuk SaaS, nilai presentasi tinggi |
-| 2026-07-05 | Tema: marketplace kebutuhan rumah tangga (galon/gas/laundry) | Masalah nyata sehari-hari, relatable |
-| 2026-07-05 | Docs structure: 4 dokumen utama | Lean & practical, tidak overkill untuk 1 orang |
-| 2026-07-05 | Pencarian: pilih area/kecamatan (dropdown) | Simpel, cukup realistis |
-| 2026-07-05 | Pembayaran: COD + QRIS statis | Realistis, tanpa payment gateway, wow factor tinggi |
-| 2026-07-05 | Pesanan: 1 pesanan = 1 merchant | Simpel, sesuai use case (bukan e-commerce cart) |
-| 2026-07-05 | Ongkir: merchant set sendiri (bisa gratis) | Fleksibel, realistis |
-| 2026-07-05 | Rating: bintang + review teks | Nilai presentasi tinggi, informatif untuk customer |
-| 2026-07-05 | Revenue model: langganan bulanan merchant | Implementasi simpel, terasa SaaS |
-| 2026-07-05 | Batasan scope: 9 fitur dicoret | Fokus ke MVP, hindari scope creep |
-| 2026-07-05 | Sitemap dibuat: 23 halaman | Public, Customer, Merchant, Admin terstruktur dengan baik |
-| 2026-07-05 | Nama Brand: SiapSedia | Familiar, positif, deskriptif tentang layanan yang selalu siap ada |
-| 2026-07-05 | Inisialisasi Next.js | Berhasil setup Next.js 16 + Tailwind v4 + React 19 secara manual. |
-| 2026-07-05 | Initial Deployment (Vercel) | Melakukan deploy awal sebelum setup DB untuk memastikan CI/CD berjalan lancar tanpa error environment variables. |
-| 2026-07-05 | Database Schema (Task 0.9) | Menggunakan single User table dengan relasi MerchantProfile. Menambahkan Vercel Blob untuk image hosting. |
-| 2026-07-05 | Revenue Model: Freemium | 10 pesanan gratis/bulan, mengakomodasi batasan tanpa payment gateway. |
-| 2026-07-05 | Desain: Murni Tailwind (Netral) | Menggunakan warna dasar abu-abu/hitam untuk kerangka awal. |
-| 2026-07-05 | Konsolidasi UI/UX | Menggabungkan beberapa rute di sitemap menjadi satu halaman (contoh: list & tambah produk, list & detail pesanan) demi UX yang lebih seamless dan mengurangi full page reload. |
-| 2026-07-05 | Sinkronisasi Fitur Admin | Membangun rute A3, A5, dan A6 yang sempat tertinggal demi kelengkapan dashboard Admin sesuai sitemap awal. |
-| 2026-07-06 | UX Enhancement | Menambahkan Bottom Navigation Bar (Customer) dan Hamburger Menu (Admin/Merchant) untuk navigasi mobile yang sempurna. |
-| 2026-07-06 | Clean UI | Menghapus class `dark:` secara global untuk mengunci aplikasi di mode Light Mode demi konsistensi estetika. |
-| 2026-07-06 | Dashboard Layout | Menyembunyikan komponen `<Footer />` di dalam area dashboard (Admin, Merchant, Customer) agar layar fokus pada antarmuka aplikasi. |
-| 2026-07-06 | Production Readiness | Melakukan uji `npm run build` dan aplikasi berhasil di-*compile* 100% tanpa satupun error TypeScript atau *build errors*. |
-| 2026-07-07 | Penetapan Harga Langganan | Memutuskan Rp 29.000/bulan sebagai biaya langganan Merchant (SaaS Freemium) berdasarkan riset margin keuntungan UMKM lokal. Harga ini menjamin ROI instan bagi merchant. |
-| 2026-07-07 | Restrukturisasi Akuisisi Mitra | Memisahkan alur akuisisi mitra dari beranda (menghapus Pricing Section dari pelanggan) dan membuat `/mitra` sebagai landing page khusus Merchant dengan desain Premium. |
-| 2026-07-07 | Production Build Check (Pre-Deployment) | Berhasil menjalankan uji kompilasi `npm run build` dan `npm run lint`. Nol error. Aplikasi 100% siap untuk di-deploy ke GitHub dan Production. |
+### 🚀 Bisnis Model & Scope Fitur
+
+- **Marketplace "SiapSedia" (Opsi C)**: Membangun model dua sisi (Customer ↔ Merchant) + dasbor Admin.
+  - **Alasan:** Format ini menyajikan solusi lengkap (end-to-end) bagi masalah keseharian lokal (Galon, Gas, Laundry).
+- **Monetisasi (Freemium)**: Merchant gratis 6 pesanan pertama setiap bulan, langganan unlimited Rp 29.000/bulan.
+  - **Alasan:** Menjawab prasyarat model "SaaS" dengan harga yang mudah dijangkau oleh UMKM, memberikan Return of Investment (ROI) instan, tanpa memberatkan pengguna di awal.
+- **MVP Boundaries (Batasan Fitur)**: Transaksi manual (COD & QRIS), 1 pesanan = 1 toko, tanpa live chat.
+  - **Alasan:** Mencegah _scope creep_ (proyek melebar tanpa ujung). Fokus pada inti masalah pencarian dan pemesanan. QRIS Manual dipilih karena menghemat biaya integrasi API Payment Gateway tapi tetap terlihat modern.
+- **Strategi Akuisisi Mitra**: Membuat landing page terpisah `/mitra`.
+  - **Alasan:** Memisahkan perjalanan pengguna (Customer Journey) agar beranda utama murni untuk berjualan, sementara calon Merchant mendapatkan presentasi bisnis (Pricing & Benefit) yang lebih leluasa dan berkelas.
+
+### 🎨 Keputusan Desain & UI/UX
+
+- **Desain Seamless & Konsolidasi Halaman**: Menggabungkan halaman list (daftar) dan form create/edit dalam satu tampilan.
+  - **Alasan:** Mencegah kelelahan pengguna akibat perpindahan rute terus-menerus (full-page reload) dan menciptakan UX layaknya aplikasi _Native_ (SPA).
+- **Prioritas Mobile-First**: Menerapkan *Desktop Sidebar* yang elegan dan *Mobile Hamburger Menu* (Slide-out Drawer) yang seragam untuk Customer, Merchant, maupun Admin.
+  - **Alasan:** Memastikan navigasi tetap konsisten dan responsif bagi target audiens utama (rumah tangga) yang 90% akan mengakses melalui _smartphone_ / HP tanpa mengorbankan ruang layar.
+- **Light Mode Terkunci**: Menghapus properti `dark:` bawaan Tailwind di seluruh kerangka UI.
+  - **Alasan:** Menjamin konsistensi estetika. Mencegah UI pecah atau gelap sebagian saat setting _device_ pengguna berada di Mode Gelap (Dark Mode).
+- **Graceful Error Handling (Anti-Crash)**: Membungkus mutasi _Server Actions_ via aksi sisi klien (`useTransition`) alih-alih tag form murni HTML.
+  - **Alasan:** Lemparan error bawaan `throw new Error()` pada Next.js akan memicu layar putih (_crash_ global). Dengan `useTransition`, jika server gagal (misal koneksi putus), pengguna hanya melihat notifikasi _alert_ kecil dan UI tetap utuh.
+- **Flexbox Safeties**: Menyuntikkan `min-w-0` pada flex container dan memindahkan _breakpoint_ grid ke `xl:grid-cols-2`.
+  - **Alasan:** Mencegah _bug_ memanjangnya tombol "Pesan" hingga tumpah (_overflow_) di layar ukuran tanggung (tablet lanskap). Ini mengatasi tabrakan hukum tata letak asli Flexbox dengan batasan teks.
+
+### 🏗️ Arsitektur Teknologi (Backend)
+
+- **Teknologi Inti**: Next.js 16 (App Router), React 19, Tailwind v4, Prisma ORM, Neon Postgres Serverless.
+  - **Alasan:** Merupakan standar industri paling mutakhir. Memungkinkan skalabilitas _fullstack_ tingkat tinggi (UI dan Backend tergabung) tanpa harus menyewa server Node/Express terpisah, sangat ideal untuk level kampus.
+- **Cross-Invalidation Cache (revalidatePath)**: Menyegarkan rute `/customer` ketika Merchant melakukan aksi status pesanan, dan sebaliknya.
+  - **Alasan:** Next.js RSC menangkap _cache_ dengan sangat agresif. Tanpa invalidasi silang, Dasbor pesanan tidak akan ter-update secara _real-time_ kecuali Merchant me-refresh browser secara manual.
+- **Role-Based Auth via Middleware Edge**: Perlindungan rute diproses via JWT token dan dicegat di `proxy.ts` (Middleware).
+  - **Alasan:** Mencegah eskalasi peretasan. Customer tidak akan bisa menyusup ke `/merchant` (lewat modifikasi URL) karena middleware langsung memblokirnya di _edge network_ sebelum halaman mulai diproses oleh server, meningkatkan keamanan ganda.
 
 ---
 
-## Log Error & Solusi
+## Log Masalah & Solusi (Knowledge Base)
 
-> Catat error/masalah yang ditemukan selama development dan solusinya.
-> Berguna sebagai referensi jika masalah serupa muncul lagi.
+> Catatan isu teknis kritis yang ditemui selama fase _development_ beserta cara mitigasinya, berguna sebagai dokumentasi teknis dan referensi jika _bug_ berulang.
 
-| Tanggal | Fase | Masalah | Solusi |
-|---------|------|---------|-------|
-| 2026-07-05 | Fase 2 | Merchant registration error — action `registerMerchant` tidak ditemukan | Membuat server action `registerMerchant` di `src/app/actions/auth.ts` |
-| 2026-07-05 | Fase 2 | Merchant sidebar — link mengarah ke path yang salah | Memperbaiki prefix link menjadi `/merchant/*` |
-| 2026-07-05 | Fase 2 | Dashboard Merchant & Admin tidak menampilkan statistik | Menambahkan aggregasi data & tabel di halaman dashboard |
-| 2026-07-05 | Fase 2 | Admin Users — tidak bisa soft delete/restore | Implementasi soft delete (`deletedAt`) pada model User + aksi di halaman admin |
+| Isu Kritis & Gejala                                                    | Akar Masalah                                                                                                                                                                                            | Solusi & Mitigasi                                                                                                                                                                                                    |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **PrismaClientValidationError** (Tabel DB tidak terbaca pasca migrasi) | Agresivitas _cache_ lokal milik Next.js 16 Turbopack (`.next`). Perubahan Prisma schema pasca `npx prisma db push` tidak dimuat ulang oleh server pengembangan.                                         | Mengalihkan sementara _output_ Prisma ke direktori baru (mis: `prisma_v2`), menghentikan _server_, menghapus folder `.next`, dan me-restart ulang `npm run dev`.                                                     |
+| **Aplikasi Layar Putih (Crash)** saat menolak/membatalkan pesanan      | Kode Next.js secara _default_ akan melempar _Unhandled Error Boundary_ bila sebuah Server Action yang dijalankan di dalam `<form>` melempar _exception/throw Error()_.                                  | Mengubah _return type_ dari setiap Server Action menjadi `{ error: string }`. Aksi `<form>` diganti menjadi event interaktif klien (`useTransition`) yang menangkap objek `error` secara elegan tanpa meledakkan UI. |
+| **Stale Data (Data Pesanan Usang)** di layar Dasbor                    | RSC Payload Next.js menangkap respons statis secara default. Mutasi status pesanan dari sisi _Customer_ tidak memaksa _router_ pada rute Merchant untuk disetel ulang.                                  | Implementasi invalidasi proaktif lewat `revalidatePath('/merchant/orders')` di dalam server action milik sisi _Customer_, begitupun sebaliknya (Cross-Invalidation Cache).                                           |
+| **Overflow & Tombol Patah** di ukuran tablet (1024px - 1100px)         | _Grid 2 kolom_ membuat pembungkus Flexbox kekurangan ruang, diperburuk dengan karakter asli Flexbox yang menolak menyusut (_shrink_) jika menabrak teks statis (teks panjang yang tak bisa dipatahkan). | Menyuntikkan `min-w-0` pada induk _Flex_ untuk melemahkan batasan konten, mengganti _breakpoint grid_ dari `lg` ke `xl` (1280px), dan menetapkan utilitas `truncate`.                                                |
+| **Peringatan: `params` should be awaited** pada Next.js 16             | Pada Next.js versi 15+ ke atas (App Router), `params` dan `searchParams` diubah secara fundamental menjadi operasi asinkron (_Promise_).                                                                | Merestrukturisasi tipe _props_ di setiap halaman dinamis menjadi asinkron (`props: { params: Promise<{ id: string }> }`) dan menyisipkan `const params = await props.params`.                                        |
+| **Kebocoran Hard Delete** saat menghapus Merchant                      | Eksekusi penghapusan `User` (Merchant) oleh Admin memicu efek berantai (`CASCADE DELETE`) pada Prisma, yang secara permanen menghapus data `Order` dan `Review` yang terkait dengan merchant tersebut.  | Mengganti mekanisme menjadi _Soft Delete_. Menambahkan kolom `deletedAt` di tabel `User`. Alih-alih menghapus data utuh, profil hanya disembunyikan agar riwayat pesanan (Customer) tetap aman.                      |
+| **Akses Rute Ilegal (Bypass Role)**                                    | Pengguna yang sudah login sebagai Customer berpotensi mencoba mengakses rute `/merchant` dengan mengetik URL secara manual di browser.                                                                  | Membangun proxy otorisasi di dalam `middleware` via `auth.config.ts`. Melakukan injeksi `role` ke dalam JWT, sehingga rute dilindungi secara absolut di level _edge network_ (sebelum halaman di-render).            |

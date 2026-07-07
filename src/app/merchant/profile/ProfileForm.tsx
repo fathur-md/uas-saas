@@ -232,7 +232,15 @@ export default function MerchantProfileForm({ merchant }: { merchant: any }) {
                   name="qrisImage"
                   accept="image/*"
                   className="sr-only"
-                  onChange={(e) => setQrisImageChanged(!!e.target.files?.length)}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file && file.size > 5 * 1024 * 1024) {
+                      alert("Ukuran gambar maksimal 5MB");
+                      e.target.value = "";
+                      return;
+                    }
+                    setQrisImageChanged(!!e.target.files?.length);
+                  }}
                 />
               </label>
             </div>
