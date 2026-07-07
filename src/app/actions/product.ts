@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 
 async function getMerchantProfileId() {
@@ -86,6 +87,8 @@ export async function deleteProduct(productId: string) {
 }
 
 export async function updateProduct(prevState: any, formData: FormData) {
+  let shouldRedirect = false;
+  
   try {
     const merchantId = await getMerchantProfileId();
 
@@ -101,41 +104,65 @@ export async function updateProduct(prevState: any, formData: FormData) {
       return { error: "Semua kolom wajib diisi dengan benar." };
     }
 
-    let imageUrl = undefined;
-
-    if (imageFile && imageFile.size > 0) {
-      try {
-        const { put } = await import("@vercel/blob");
-        const blob = await put(imageFile.name, imageFile, {
-          access: "public",
-          addRandomSuffix: true,
-        });
-        imageUrl = blob.url;
-      } catch (err) {
-        console.error("Gagal mengunggah gambar:", err);
-        return { error: "Gagal mengunggah gambar. Pastikan BLOB_READ_WRITE_TOKEN valid." };
-      }
-    }
-
-    await prisma.product.updateMany({
-      where: {
-        id: productId,
-        merchantId,
-      },
-      data: {
-        name,
-        category,
-        price,
-        description: description || null,
-        isAvailable,
-        ...(imageUrl && { imageUrl }),
-      }
+    const existingProduct = await prisma.product.findFirst({
+      where: { id: productId, merchantId },
     });
 
-    revalidatePath("/merchant/products");
-    return { success: true, message: "Produk berhasil diperbarui." };
+    if (!existingProduct) {
+      return { error: "Produk tidak ditemukan." };
+    }
+
+    // Check if anything changed
+    const hasChanges = 
+      existingProduct.name !== name ||
+      existingProduct.category !== category ||
+      existingProduct.price !== price ||
+      (existingProduct.description || "") !== (description || "") ||
+      existingProduct.isAvailable !== isAvailable ||
+      (imageFile && imageFile.size > 0);
+
+    if (!hasChanges) {
+      shouldRedirect = true;
+    } else {
+      let imageUrl = undefined;
+
+      if (imageFile && imageFile.size > 0) {
+        try {
+          const { put } = await import("@vercel/blob");
+          const blob = await put(imageFile.name, imageFile, {
+            access: "public",
+            addRandomSuffix: true,
+          });
+          imageUrl = blob.url;
+        } catch (err) {
+          console.error("Gagal mengunggah gambar:", err);
+          return { error: "Gagal mengunggah gambar. Pastikan BLOB_READ_WRITE_TOKEN valid." };
+        }
+      }
+
+      await prisma.product.updateMany({
+        where: {
+          id: productId,
+          merchantId,
+        },
+        data: {
+          name,
+          category,
+          price,
+          description: description || null,
+          isAvailable,
+          ...(imageUrl && { imageUrl }),
+        }
+      });
+      shouldRedirect = true;
+    }
   } catch (error: any) {
     return { error: error.message || "Gagal memperbarui produk." };
+  }
+
+  if (shouldRedirect) {
+    revalidatePath("/merchant/products");
+    redirect("/merchant/products");
   }
 }
 

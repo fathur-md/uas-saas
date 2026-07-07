@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useActionState } from "react";
 import { registerCustomer } from "@/app/actions/auth";
 import { CheckCircle2 } from "lucide-react";
@@ -14,8 +15,9 @@ export default function RegisterCustomerPage() {
         <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[600px] h-[600px] bg-accent/20 rounded-full blur-3xl" />
         
         <div className="relative z-10">
-          <Link href="/" className="text-3xl font-bold tracking-tight text-white">
-            Siap<span className="text-accent">Sedia</span>
+          <Link href="/" className="flex items-center gap-3 text-4xl font-bold tracking-tight text-white transition-transform hover:scale-105 active:scale-95">
+            <Image src="/logo.webp" alt="SiapSedia logo" width={40} height={40} className="rounded-lg shadow-sm" />
+            <span>Siap<span className="text-accent font-medium">Sedia</span></span>
           </Link>
           <div className="mt-24 max-w-lg">
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl mb-6 leading-tight">
@@ -38,8 +40,9 @@ export default function RegisterCustomerPage() {
       <div className="flex w-full lg:w-1/2 flex-col justify-center items-center px-6 py-12 sm:px-12">
         <div className="w-full max-w-md">
           <div className="lg:hidden mb-8 text-center">
-            <Link href="/" className="text-3xl font-bold tracking-tight text-primary">
-              Siap<span className="text-accent">Sedia</span>
+            <Link href="/" className="flex items-center justify-center gap-2 text-3xl font-bold tracking-tight text-primary transition-transform hover:scale-105 active:scale-95">
+              <Image src="/logo.webp" alt="SiapSedia logo" width={32} height={32} className="rounded-md shadow-sm" />
+              <span>Siap<span className="text-accent font-medium">Sedia</span></span>
             </Link>
           </div>
 

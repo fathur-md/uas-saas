@@ -17,12 +17,6 @@ export default function EditProductForm({ product }: { product: any }) {
         </div>
       )}
 
-      {state?.success && (
-        <div className="rounded-md bg-green-50 p-3 text-sm text-green-700 border border-green-200">
-          {state.message}
-        </div>
-      )}
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-primary">
@@ -101,13 +95,7 @@ export default function EditProductForm({ product }: { product: any }) {
           name="image"
           id="image"
           accept="image/*"
-          className="mt-1 block w-full text-sm text-neutral-dark
-            file:mr-4 file:py-2 file:px-4
-            file:rounded-md file:border-0
-            file:text-sm file:font-semibold
-            file:bg-neutral-light/30 file:text-primary
-            hover:file:bg-neutral-light/50
-          "
+          className="mt-1 block w-full text-sm text-neutral-dark file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-neutral-light/30 file:text-primary hover:file:bg-neutral-light/50"
         />
       </div>
 

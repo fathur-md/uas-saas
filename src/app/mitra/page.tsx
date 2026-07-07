@@ -13,7 +13,7 @@ export default function MitraLandingPage() {
     <div className="flex flex-col min-h-screen bg-background">
       
       {/* HERO SECTION */}
-      <section className="relative pt-12 lg:pt-16 pb-20 px-6 lg:px-8 overflow-hidden bg-white">
+      <section className="relative isolate pt-32 lg:pt-36 pb-20 px-6 lg:px-8 overflow-hidden bg-background -mt-24">
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-white to-primary/5 -z-10" />
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           

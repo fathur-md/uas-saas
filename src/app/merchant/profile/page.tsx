@@ -24,14 +24,14 @@ export default async function MerchantProfilePage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-primary">Pengaturan Toko</h1>
-        <p className="text-neutral-dark mt-1">
+      <div className="border-b border-neutral-light/50 pb-6">
+        <h1 className="text-2xl font-bold text-primary tracking-tight">Pengaturan Toko</h1>
+        <p className="text-sm text-neutral-dark/70 mt-1">
           Kelola informasi toko, biaya pengiriman, dan status operasional Anda.
         </p>
       </div>
 
-      <div className="bg-background border border-neutral-light p-6 sm:p-8 rounded-xl shadow-sm">
+      <div className="bg-white border border-neutral-light/50 p-6 sm:p-8 rounded-xl shadow-sm">
         <MerchantProfileForm merchant={merchant} />
       </div>
     </div>

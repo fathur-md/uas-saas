@@ -1,15 +1,66 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, useEffect, useRef } from "react";
 import { updateMerchantProfile } from "@/app/actions/profile";
-import { Save, Store, Camera } from "lucide-react";
+import { Save, Store, Camera, X } from "lucide-react";
 
 export default function MerchantProfileForm({ merchant }: { merchant: any }) {
   const [state, action, isPending] = useActionState(updateMerchantProfile, null);
-  const [isOpen, setIsOpen] = useState(merchant.isOpen);
+  const formRef = useRef<HTMLFormElement>(null);
+  
+  const originalName = merchant?.user?.name || "";
+  const originalPhone = merchant?.user?.phoneNumber || "";
+  const originalStoreName = merchant?.storeName || "";
+  const originalArea = merchant?.area || "";
+  const originalAddress = merchant?.address || "";
+  const originalDeliveryFee = merchant?.deliveryFee || 0;
+  const originalDescription = merchant?.description || "";
+  const originalIsOpen = merchant?.isOpen ?? false;
+
+  const [isOpen, setIsOpen] = useState(originalIsOpen);
+  const [name, setName] = useState(originalName);
+  const [phoneNumber, setPhoneNumber] = useState(originalPhone);
+  const [storeName, setStoreName] = useState(originalStoreName);
+  const [area, setArea] = useState(originalArea);
+  const [address, setAddress] = useState(originalAddress);
+  const [deliveryFee, setDeliveryFee] = useState(originalDeliveryFee);
+  const [description, setDescription] = useState(originalDescription);
+  const [qrisImageChanged, setQrisImageChanged] = useState(false);
+
+  useEffect(() => {
+    if (state?.success) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setQrisImageChanged(false);
+      // Wait for revalidatePath to send new props
+    }
+  }, [state]);
+
+  const hasChanges = 
+    isOpen !== originalIsOpen ||
+    name !== originalName ||
+    phoneNumber !== originalPhone ||
+    storeName !== originalStoreName ||
+    area !== originalArea ||
+    address !== originalAddress ||
+    Number(deliveryFee) !== Number(originalDeliveryFee) ||
+    description !== originalDescription ||
+    qrisImageChanged;
+
+  const handleCancel = () => {
+    setIsOpen(originalIsOpen);
+    setName(originalName);
+    setPhoneNumber(originalPhone);
+    setStoreName(originalStoreName);
+    setArea(originalArea);
+    setAddress(originalAddress);
+    setDeliveryFee(originalDeliveryFee);
+    setDescription(originalDescription);
+    setQrisImageChanged(false);
+    if (formRef.current) formRef.current.reset();
+  };
 
   return (
-    <form action={action} className="space-y-8">
+    <form ref={formRef} action={action} className="space-y-8">
       {state?.error && (
         <div className="rounded-md bg-red-50 p-4 text-sm text-red-700 border border-red-200">
           {state.error}
@@ -59,7 +110,8 @@ export default function MerchantProfileForm({ merchant }: { merchant: any }) {
             <input
               type="text"
               name="name"
-              defaultValue={merchant.user.name}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
               className="block w-full rounded-md border-neutral-light shadow-sm focus:border-accent focus:ring-accent sm:text-sm px-3 py-2 border bg-background text-foreground"
             />
@@ -72,7 +124,8 @@ export default function MerchantProfileForm({ merchant }: { merchant: any }) {
             <input
               type="text"
               name="phoneNumber"
-              defaultValue={merchant.user.phoneNumber}
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
               required
               className="block w-full rounded-md border-neutral-light shadow-sm focus:border-accent focus:ring-accent sm:text-sm px-3 py-2 border bg-background text-foreground"
             />
@@ -89,7 +142,8 @@ export default function MerchantProfileForm({ merchant }: { merchant: any }) {
             <input
               type="text"
               name="storeName"
-              defaultValue={merchant.storeName}
+              value={storeName}
+              onChange={(e) => setStoreName(e.target.value)}
               required
               className="block w-full rounded-md border-neutral-light shadow-sm focus:border-accent focus:ring-accent sm:text-sm px-3 py-2 border bg-background text-foreground"
             />
@@ -102,7 +156,8 @@ export default function MerchantProfileForm({ merchant }: { merchant: any }) {
             <input
               type="text"
               name="area"
-              defaultValue={merchant.area}
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
               required
               className="block w-full rounded-md border-neutral-light shadow-sm focus:border-accent focus:ring-accent sm:text-sm px-3 py-2 border bg-background text-foreground"
             />
@@ -115,7 +170,8 @@ export default function MerchantProfileForm({ merchant }: { merchant: any }) {
             <textarea
               name="address"
               rows={2}
-              defaultValue={merchant.address}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               required
               className="block w-full rounded-md border-neutral-light shadow-sm focus:border-accent focus:ring-accent sm:text-sm px-3 py-2 border bg-background text-foreground"
             />
@@ -131,7 +187,8 @@ export default function MerchantProfileForm({ merchant }: { merchant: any }) {
                 type="number"
                 name="deliveryFee"
                 min="0"
-                defaultValue={merchant.deliveryFee}
+                value={deliveryFee}
+                onChange={(e) => setDeliveryFee(e.target.value)}
                 required
                 className="block w-full rounded-md border-neutral-light shadow-sm focus:border-accent focus:ring-accent sm:text-sm px-3 py-2 border bg-background text-foreground"
               />
@@ -146,7 +203,8 @@ export default function MerchantProfileForm({ merchant }: { merchant: any }) {
             <textarea
               name="description"
               rows={2}
-              defaultValue={merchant.description || ""}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Contoh: Buka 24 jam, melayani antar jemput laundry."
               className="block w-full rounded-md border-neutral-light shadow-sm focus:border-accent focus:ring-accent sm:text-sm px-3 py-2 border bg-background text-foreground"
             />
@@ -174,6 +232,7 @@ export default function MerchantProfileForm({ merchant }: { merchant: any }) {
                   name="qrisImage"
                   accept="image/*"
                   className="sr-only"
+                  onChange={(e) => setQrisImageChanged(!!e.target.files?.length)}
                 />
               </label>
             </div>
@@ -184,13 +243,24 @@ export default function MerchantProfileForm({ merchant }: { merchant: any }) {
         </div>
       </div>
 
-      <div className="flex justify-end pt-4 mt-6 border-t border-neutral-light">
+      <div className="flex flex-col-reverse md:flex-row justify-end gap-3 pt-4 mt-6 border-t border-neutral-light">
+        {hasChanges && (
+          <button
+            type="button"
+            onClick={handleCancel}
+            disabled={isPending}
+            className="inline-flex items-center gap-2 justify-center rounded-md border border-neutral-light px-8 py-3 text-sm font-semibold text-primary hover:bg-neutral-light/30 transition-all duration-300 w-full md:w-auto animate-in fade-in slide-in-from-right-4"
+          >
+            <X className="h-4 w-4" />
+            Batal
+          </button>
+        )}
         <button
           type="submit"
-          disabled={isPending}
-          className="inline-flex items-center gap-2 justify-center rounded-md bg-accent px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-accent/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 transition"
+          disabled={!hasChanges || isPending}
+          className="inline-flex items-center gap-2 justify-center rounded-md bg-accent px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-accent/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 w-full md:w-auto"
         >
-          <Save className="h-5 w-5" />
+          <Save className={`h-5 w-5 ${isPending ? 'animate-pulse' : ''}`} />
           {isPending ? "Menyimpan Perubahan..." : "Simpan Pengaturan Toko"}
         </button>
       </div>

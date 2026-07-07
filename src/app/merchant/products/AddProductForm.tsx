@@ -88,13 +88,7 @@ export default function AddProductForm() {
               name="image"
               id="image"
               accept="image/*"
-              className="mt-1 block w-full text-sm text-neutral-dark
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-md file:border-0
-                file:text-sm file:font-semibold
-                file:bg-neutral-light/30 file:text-primary
-                hover:file:bg-neutral-light/50
-              "
+              className="mt-1 block w-full text-sm text-neutral-dark file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-neutral-light/30 file:text-primary hover:file:bg-neutral-light/50"
             />
           </div>
         </div>

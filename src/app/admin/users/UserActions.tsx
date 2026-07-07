@@ -15,13 +15,13 @@ export default function UserActions({ userId, isDeleted, isSelf }: UserActionsPr
   const [isPending, startTransition] = useTransition();
 
   if (isSelf) {
-    return <span className="text-xs text-neutral-dark italic">Anda</span>;
+    return <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 italic">Anda</span>;
   }
 
   return (
-    <div className="flex gap-1 items-center">
-      <Link href={`/admin/users/${userId}`} className="flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors">
-        <ExternalLink className="h-3 w-3" />
+    <div className="flex gap-2 items-center">
+      <Link href={`/admin/users/${userId}`} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
+        <ExternalLink className="h-3.5 w-3.5" strokeWidth={2} />
         Detail
       </Link>
       
@@ -29,9 +29,9 @@ export default function UserActions({ userId, isDeleted, isSelf }: UserActionsPr
         <button
           disabled={isPending}
           onClick={() => startTransition(() => restoreUser(userId))}
-          className="flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-md bg-emerald-100 text-emerald-700 hover:bg-emerald-200 transition-colors disabled:opacity-50 cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors disabled:opacity-50 cursor-pointer"
         >
-          <RotateCcw className="h-3 w-3" />
+          <RotateCcw className="h-3.5 w-3.5" strokeWidth={2.5} />
           Pulihkan
         </button>
       ) : (
@@ -42,10 +42,10 @@ export default function UserActions({ userId, isDeleted, isSelf }: UserActionsPr
               startTransition(() => deleteUser(userId));
             }
           }}
-          className="flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-md bg-red-100 text-red-700 hover:bg-red-200 transition-colors disabled:opacity-50 cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors disabled:opacity-50 cursor-pointer"
         >
-          <Trash2 className="h-3 w-3" />
-          Nonaktifkan
+          <Trash2 className="h-3.5 w-3.5" strokeWidth={2} />
+          Nonaktif
         </button>
       )}
     </div>

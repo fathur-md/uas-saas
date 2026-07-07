@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Navbar from "./components/Navbar";
 import "./globals.css";
 import ConditionalFooter from "@/app/components/ConditionalFooter";
+import ConditionalNavbar from "@/app/components/ConditionalNavbar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -48,7 +49,9 @@ export default function RootLayout({
   return (
     <html lang="id" className="h-full antialiased" style={{ colorScheme: 'light' }}>
       <body className={`${inter.className} min-h-dvh flex flex-col`}>
-        <Navbar />
+        <ConditionalNavbar>
+          <Navbar />
+        </ConditionalNavbar>
         <main className="flex-1 bg-background text-foreground flex-col flex">
           {children}
         </main>

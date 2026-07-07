@@ -3,9 +3,9 @@ import { Droplets, Flame, Shirt } from "lucide-react";
 
 export default function HeroSection() {
   return (
-    <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-4 text-center -mt-24 pt-24">
-      {/* Latar belakang gradien lembut ala Apple */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-white/50 -z-10" />
+    <section className="relative isolate flex min-h-dvh flex-col items-center justify-center overflow-hidden px-4 text-center -mt-24 pt-24">
+      {/* Latar belakang gradien lembut */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-white -z-10" />
       <div className="absolute top-0 w-full h-[500px] bg-accent/5 blur-[100px] rounded-full -translate-y-1/2 -z-10" />
 
       {/* Konten Utama */}

@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { updateOrderStatus } from "@/app/actions/order";
 import { Check, X, Truck, Package, Clock, ExternalLink } from "lucide-react";
+import SubmitButton from "@/app/components/SubmitButton";
 
 export const metadata = {
   title: "Kelola Pesanan | Merchant",
@@ -37,151 +38,206 @@ export default async function MerchantOrdersPage() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "PENDING": return <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Menunggu Respon</span>;
-      case "ACCEPTED": return <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Diterima</span>;
-      case "PROCESSING": return <span className="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Diproses</span>;
-      case "DELIVERING": return <span className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Diantar</span>;
-      case "COMPLETED": return <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Selesai</span>;
-      case "REJECTED": return <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Ditolak</span>;
-      case "CANCELLED": return <span className="bg-neutral-light/30 text-primary text-xs px-2 py-1 rounded">Dibatalkan</span>;
-      default: return <span>{status}</span>;
+      case "PENDING": return <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold rounded border bg-amber-50 text-amber-700 border-amber-200">Menunggu Respon</span>;
+      case "ACCEPTED": return <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold rounded border bg-blue-50 text-blue-700 border-blue-200">Diterima</span>;
+      case "PROCESSING": return <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold rounded border bg-indigo-50 text-indigo-700 border-indigo-200">Diproses</span>;
+      case "DELIVERING": return <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold rounded border bg-purple-50 text-purple-700 border-purple-200">Diantar</span>;
+      case "COMPLETED": return <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold rounded border bg-emerald-50 text-emerald-700 border-emerald-200">Selesai</span>;
+      case "REJECTED": return <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold rounded border bg-rose-50 text-rose-700 border-rose-200">Ditolak</span>;
+      case "CANCELLED": return <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold rounded border bg-neutral-50 text-neutral-600 border-neutral-200">Dibatalkan</span>;
+      default: return <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold rounded border bg-neutral-100 text-neutral-700 border-neutral-200">{status}</span>;
     }
   };
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-primary">Pesanan Masuk</h1>
-        <p className="text-neutral-dark mt-1">
+      <div className="border-b border-neutral-light/50 pb-6">
+        <h1 className="text-2xl font-bold text-primary tracking-tight">Pesanan Masuk</h1>
+        <p className="text-sm text-neutral-dark/70 mt-1">
           Kelola semua pesanan dari pelanggan Anda.
         </p>
       </div>
 
-      <div className="bg-background rounded-xl shadow-sm border border-neutral-light overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-neutral-light/50 overflow-hidden">
         {orders.length === 0 ? (
-          <div className="p-8 text-center">
-            <Package className="h-12 w-12 text-neutral-dark mx-auto mb-4" />
-            <p className="text-neutral-dark">Belum ada pesanan yang masuk.</p>
+          <div className="p-12 text-center flex flex-col items-center">
+            <div className="h-12 w-12 rounded-full bg-neutral-100 flex items-center justify-center mb-3">
+              <Package className="h-5 w-5 text-neutral-dark/40" />
+            </div>
+            <p className="font-medium text-neutral-dark">Belum ada pesanan yang masuk.</p>
+            <p className="text-sm text-neutral-dark/60 mt-1">Pesanan pelanggan akan muncul di sini.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-neutral-dark">
-              <thead className="bg-neutral-light/30 text-xs uppercase text-primary border-b border-neutral-light">
+          <div className="overflow-x-auto lg:overflow-visible">
+            <table className="w-full text-left text-sm text-neutral-dark block lg:table">
+              <thead className="bg-neutral-50/50 border-b border-neutral-light/50 hidden lg:table-header-group">
                 <tr>
-                  <th className="px-6 py-4">ID / Tanggal</th>
-                  <th className="px-6 py-4">Pelanggan</th>
-                  <th className="px-6 py-4">Detail Pesanan</th>
-                  <th className="px-6 py-4">Total</th>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4 text-right">Aksi</th>
+                  <th className="px-6 py-4 font-bold text-neutral-dark/60 uppercase tracking-wider text-[11px]">ID / Tanggal</th>
+                  <th className="px-6 py-4 font-bold text-neutral-dark/60 uppercase tracking-wider text-[11px]">Pelanggan</th>
+                  <th className="px-6 py-4 font-bold text-neutral-dark/60 uppercase tracking-wider text-[11px]">Detail Pesanan</th>
+                  <th className="px-6 py-4 font-bold text-neutral-dark/60 uppercase tracking-wider text-[11px]">Total</th>
+                  <th className="px-6 py-4 font-bold text-neutral-dark/60 uppercase tracking-wider text-[11px]">Status</th>
+                  <th className="px-6 py-4 font-bold text-neutral-dark/60 uppercase tracking-wider text-[11px] text-right">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-light">
+              <tbody className="block lg:table-row-group divide-y lg:divide-y lg:divide-neutral-light/30">
                 {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-neutral-light/30 transition">
-                    <td className="px-6 py-4 align-top">
-                      <div className="font-mono text-xs text-neutral-dark truncate w-24" title={order.id}>
-                        #{order.id.slice(0, 8)}
-                      </div>
-                      <div className="text-xs mt-1 text-neutral-dark">
-                        {order.createdAt.toLocaleDateString("id-ID", { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 align-top">
-                      <div className="font-medium text-primary">{order.customer.name}</div>
-                      <div className="text-xs mt-1">{order.customer.phoneNumber}</div>
-                      <div className="text-xs mt-1 bg-neutral-light/30 p-1 rounded break-words max-w-[200px]">
-                        {order.shippingAddress}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 align-top">
-                      <ul className="space-y-1">
-                        {order.orderItems.map(item => (
-                          <li key={item.id} className="text-sm">
-                            <span className="font-medium">{item.quantity}x</span> {item.product.name}
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="mt-2 text-xs text-neutral-dark flex gap-2">
-                        <span className="px-1.5 py-0.5 bg-neutral-light/30 rounded">Ongkir: Rp{order.shippingCost.toLocaleString("id-ID")}</span>
-                        <span className="px-1.5 py-0.5 bg-neutral-light/30 rounded">{order.paymentMethod}</span>
-                      </div>
-                      {order.notes && (
-                        <div className="mt-2 text-xs italic text-neutral-dark">
-                          &quot; {order.notes} &quot;
+                  <tr key={order.id} className="hover:bg-neutral-50/50 transition-colors group block lg:table-row border-b border-neutral-light/30 lg:border-none mb-4 lg:mb-0 pb-4 lg:pb-0">
+                    
+                    {/* Header on Mobile, Column 1 on Desktop */}
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 align-top block lg:table-cell bg-neutral-50/50 lg:bg-transparent mb-2 lg:mb-0 rounded-t-lg lg:rounded-none">
+                      <div className="flex justify-between lg:block items-center">
+                        <div className="lg:hidden font-bold text-[11px] text-neutral-dark/60 uppercase">Pesanan</div>
+                        <div className="text-right lg:text-left">
+                          <div className="font-mono text-xs font-bold text-primary lg:font-medium lg:text-neutral-dark/80" title={order.id}>
+                            #{order.id.slice(0, 8)}
+                          </div>
+                          <div className="text-[11px] font-medium mt-1 text-neutral-dark/60">
+                            {order.createdAt.toLocaleDateString("id-ID", { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </td>
-                    <td className="px-6 py-4 align-top font-bold text-primary">
-                      Rp {order.totalAmount.toLocaleString("id-ID")}
+
+                    <td className="px-4 lg:px-6 py-2 lg:py-4 align-top block lg:table-cell">
+                      <div className="flex flex-col lg:block">
+                        <span className="lg:hidden font-bold text-[11px] text-neutral-dark/60 uppercase mb-1">Pelanggan</span>
+                        <div className="font-medium text-primary">{order.customer.name}</div>
+                        <div className="text-xs mt-1">{order.customer.phoneNumber}</div>
+                        <div className="text-xs mt-1 bg-neutral-light/30 p-1.5 rounded max-w-full lg:max-w-[200px] break-words">
+                          {order.shippingAddress}
+                        </div>
+                      </div>
                     </td>
-                    <td className="px-6 py-4 align-top space-y-2">
-                      <div>{getStatusBadge(order.status)}</div>
-                      {order.paymentStatus === "UNPAID" && (
-                        <div className="text-xs text-red-500 font-medium mt-1">Belum Bayar</div>
-                      )}
-                      {order.paymentStatus === "WAITING_CONFIRMATION" && (
-                        <div className="text-xs text-orange-500 font-medium mt-1">Cek Pembayaran QRIS</div>
-                      )}
-                      {order.paymentStatus === "PAID" && (
-                        <div className="text-xs text-green-500 font-medium mt-1">Lunas</div>
-                      )}
+
+                    <td className="px-4 lg:px-6 py-2 lg:py-4 align-top block lg:table-cell">
+                      <div className="flex flex-col lg:block">
+                        <span className="lg:hidden font-bold text-[11px] text-neutral-dark/60 uppercase mb-1">Detail</span>
+                        <ul className="space-y-1">
+                          {order.orderItems.map(item => (
+                            <li key={item.id} className="text-sm">
+                              <span className="font-medium">{item.quantity}x</span> {item.product.name}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="mt-2 text-xs text-neutral-dark flex flex-wrap gap-2">
+                          <span className="px-1.5 py-0.5 bg-neutral-light/30 rounded">Ongkir: Rp{order.shippingCost.toLocaleString("id-ID")}</span>
+                          <span className="px-1.5 py-0.5 bg-neutral-light/30 rounded font-medium">{order.paymentMethod}</span>
+                        </div>
+                        {order.notes && (
+                          <div className="mt-2 text-xs italic text-neutral-dark/80 bg-yellow-50/50 p-1.5 rounded border border-yellow-100">
+                            Catatan: &quot;{order.notes}&quot;
+                          </div>
+                        )}
+                      </div>
                     </td>
-                    <td className="px-6 py-4 align-top text-right">
-                      {/* State Machine Aksi Merchant */}
-                      <div className="flex flex-col gap-2 items-end">
-                        
+
+                    <td className="px-4 lg:px-6 py-2 lg:py-4 align-top block lg:table-cell">
+                      <div className="flex justify-between lg:block items-center">
+                        <span className="lg:hidden font-bold text-[11px] text-neutral-dark/60 uppercase">Total Belanja</span>
+                        <div className="font-bold text-primary text-base lg:text-sm">
+                          Rp {order.totalAmount.toLocaleString("id-ID")}
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 align-top block lg:table-cell border-t border-neutral-light/30 lg:border-none mt-2 lg:mt-0">
+                      <div className="flex justify-between lg:flex-col items-center lg:items-start">
+                        <span className="lg:hidden font-bold text-[11px] text-neutral-dark/60 uppercase">Status</span>
+                        <div className="flex flex-col items-end lg:items-start gap-1">
+                          {getStatusBadge(order.status)}
+                          {order.paymentStatus === "UNPAID" && (
+                            <div className="text-[10px] lg:text-xs text-red-500 font-medium">Belum Bayar</div>
+                          )}
+                          {order.paymentStatus === "WAITING_CONFIRMATION" && (
+                            <div className="text-[10px] lg:text-xs text-orange-500 font-medium">Cek Pembayaran</div>
+                          )}
+                          {order.paymentStatus === "PAID" && (
+                            <div className="text-[10px] lg:text-xs text-green-500 font-medium">Lunas</div>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 align-top block lg:table-cell bg-neutral-50/30 lg:bg-transparent mt-2 lg:mt-0">
+                      <div className="flex flex-col lg:items-end gap-2">
                         {order.status === "PENDING" && (
-                          <>
-                            <form action={updateOrderStatus.bind(null, order.id, "ACCEPTED", undefined)}>
-                              <button className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md text-xs font-medium transition">
-                                <Check className="h-3 w-3" /> Terima
-                              </button>
+                          <div className="flex flex-row lg:flex-col gap-2 w-full lg:w-auto">
+                            <form className="flex-1 lg:flex-none" action={updateOrderStatus.bind(null, order.id, "ACCEPTED", undefined)}>
+                              <SubmitButton 
+                                className="w-full justify-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium shadow-sm"
+                                icon={<Check className="h-3 w-3" />}
+                                loadingText="Menerima..."
+                              >
+                                Terima
+                              </SubmitButton>
                             </form>
-                            <form action={updateOrderStatus.bind(null, order.id, "REJECTED", undefined)}>
-                              <button className="flex items-center gap-1 bg-white border border-red-200 text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-md text-xs font-medium transition">
-                                <X className="h-3 w-3" /> Tolak
-                              </button>
+                            <form className="flex-1 lg:flex-none" action={updateOrderStatus.bind(null, order.id, "REJECTED", undefined)}>
+                              <SubmitButton 
+                                confirmMessage="Yakin ingin MENOLAK pesanan ini?"
+                                className="w-full justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium"
+                                icon={<X className="h-3 w-3" />}
+                                loadingText="Menolak..."
+                              >
+                                Tolak
+                              </SubmitButton>
                             </form>
-                          </>
+                          </div>
                         )}
 
                         {order.status === "ACCEPTED" && (
-                          <form action={updateOrderStatus.bind(null, order.id, "PROCESSING", undefined)}>
-                            <button className="flex items-center gap-1 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-md text-xs font-medium transition">
-                              <Package className="h-3 w-3" /> Proses Pesanan
-                            </button>
+                          <form className="w-full lg:w-auto" action={updateOrderStatus.bind(null, order.id, "PROCESSING", undefined)}>
+                            <SubmitButton 
+                              className="w-full justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium shadow-sm"
+                              icon={<Package className="h-3 w-3" />}
+                              loadingText="Memproses..."
+                            >
+                              Proses Pesanan
+                            </SubmitButton>
                           </form>
                         )}
 
                         {order.status === "PROCESSING" && (
-                          <form action={updateOrderStatus.bind(null, order.id, "DELIVERING", undefined)}>
-                            <button className="flex items-center gap-1 bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-md text-xs font-medium transition">
-                              <Truck className="h-3 w-3" /> Antar Sekarang
-                            </button>
+                          <form className="w-full lg:w-auto" action={updateOrderStatus.bind(null, order.id, "DELIVERING", undefined)}>
+                            <SubmitButton 
+                              className="w-full justify-center bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium shadow-sm"
+                              icon={<Truck className="h-3 w-3" />}
+                              loadingText="Mengantar..."
+                            >
+                              Antar Sekarang
+                            </SubmitButton>
                           </form>
                         )}
 
                         {order.status === "DELIVERING" && (
-                          <form action={updateOrderStatus.bind(null, order.id, "COMPLETED", "PAID")}>
-                            <button className="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md text-xs font-medium transition" title="Tandai selesai & Lunas">
-                              <Check className="h-3 w-3" /> Selesai & Lunas
-                            </button>
+                          <form className="w-full lg:w-auto" action={updateOrderStatus.bind(null, order.id, "COMPLETED", "PAID")}>
+                            <SubmitButton 
+                              confirmMessage="Yakin pesanan sudah SELESAI dan LUNAS?"
+                              className="w-full justify-center bg-green-600 hover:bg-green-700 text-white px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium shadow-sm"
+                              icon={<Check className="h-3 w-3" />}
+                              loadingText="Menyelesaikan..."
+                            >
+                              Selesai & Lunas
+                            </SubmitButton>
                           </form>
                         )}
 
                         {/* Jika customer bayar via QRIS dan butuh konfirmasi */}
                         {(order.paymentStatus === "WAITING_CONFIRMATION" && order.status !== "COMPLETED") && (
-                          <div className="flex flex-col gap-2 items-end">
+                          <div className="flex flex-col gap-2 w-full lg:w-auto lg:items-end mt-2 lg:mt-0 pt-2 lg:pt-0 border-t border-neutral-light/30 lg:border-none">
                             {order.paymentProofUrl && (
-                              <a href={order.paymentProofUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 bg-neutral-light/50 hover:bg-neutral-light text-primary px-3 py-1.5 rounded-md text-xs font-medium transition border border-neutral-light">
-                                <ExternalLink className="h-3 w-3" /> Lihat Bukti Bayar
+                              <a href={order.paymentProofUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 bg-neutral-100 hover:bg-neutral-200 text-primary px-3 py-2 lg:py-1.5 rounded-md text-xs font-medium transition border border-neutral-light/50 w-full lg:w-auto">
+                                <ExternalLink className="h-3.5 w-3.5" /> Lihat Bukti Bayar
                               </a>
                             )}
-                            <form action={updateOrderStatus.bind(null, order.id, order.status, "PAID")}>
-                              <button className="flex items-center gap-1 bg-green-100 text-green-700 border border-green-300 hover:bg-green-200 px-3 py-1.5 rounded-md text-xs font-medium transition">
-                                Konfirmasi Uang Masuk
-                              </button>
+                            <form className="w-full lg:w-auto" action={updateOrderStatus.bind(null, order.id, order.status, "PAID")}>
+                              <SubmitButton 
+                                confirmMessage="Yakin uang sudah masuk?"
+                                className="w-full justify-center bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 px-3 py-2 lg:py-1.5 rounded-md text-xs font-bold"
+                                loadingText="Mengonfirmasi..."
+                              >
+                                Konfirmasi Pembayaran
+                              </SubmitButton>
                             </form>
                           </div>
                         )}

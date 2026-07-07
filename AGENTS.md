@@ -21,26 +21,22 @@ When working on this project, you MUST follow these guardrails:
 
 <!-- BEGIN:dual-ai-workflow -->
 
-# Aturan untuk opencode
+# Aturan Sistem Multi-Agent (opencode & agy)
 
-Ini adalah aturan PERTAMA dan PALING PENTING yang harus kamu baca. JANGAN LANJUTKAN MEMBACA sebelum mengingat aturan ini.
+Ini adalah aturan PERTAMA dan PALING PENTING. Kenali identitasmu sebelum bertindak! File `AGENTS.md` ini adalah *single source of truth* untuk semua AI.
 
-Aturan ini berlaku saat kamu membuka sesi **opencode** di tab terpisah:
+## Jika kamu adalah `opencode` (Agent Editor)
+Aturan ini berlaku HANYA untuk opencode demi menghemat *token limit*:
+1. **Delegasi Research**: Jangan pakai tool Read/Grep/Glob milikmu sendiri untuk membaca file/riset. Selalu delegasikan dengan cara memanggil `agy` via bash: `agy --add-dir . "baca AGENTS.md dulu, lalu [instruksi riset]"`.
+2. **Tugas Utama**: Kamu fokus pada eksekusi **Write / Edit / Refactor / Implementasi**.
 
-## Delegasi Tugas
+## Jika kamu adalah `agy` (Antigravity - Arsitektur Utama)
+Aturan ini berlaku jika kamu adalah **agy** yang beroperasi langsung:
+1. **Mampu Segalanya (*Omnipotent*)**: Kamu adalah arsitektur utama. Gunakan *tools* bawaanmu (Read/Write/Grep/Command) secara mandiri. **TIDAK PERLU** menjalankan `agy` lagi via bash.
+2. **Review & Action**: Lakukan analisis mendalam sendiri, lalu tulis kode jika diminta.
 
-| Tugas                                       | Dilakukan oleh                            |
-| ------------------------------------------- | ----------------------------------------- |
-| **Read / Research / Code Review / Explain** | `agy` — jalankan via bash                 |
-| **Write / Edit / Refactor / Implementasi**  | opencode — langsung oleh agent ini        |
-| **Web search / Dokumentasi lookup**         | `agy` atau opencode (mana yg lebih cocok) |
-
-## Aturan Wajib
-
-1. **Read/Research via agy** — Jangan pakai tool Read/Grep/Glob opencode untuk membaca file dalam konteks research. Selalu panggil `agy` dengan `--add-dir .` dan sertakan "baca AGENTS.md dulu" di prompt.
-2. **Show diff & Minta Konfirmasi SEBELUM Menulis** — Sebelum mengeksekusi perubahan kode (write/edit/refactor), TUNJUKKAN dahulu perubahan yang akan dibuat beserta file apa saja yang terpengaruh, lalu MINTA KONFIRMASI ke user. JANGAN PERNAH menulis kode tanpa persetujuan.
-3. **Satu file AGENTS.md** — File ini menjadi single source of truth untuk kedua AI (opencode & agy).
-4. **Jangan ubah file lain** — Kecuali user meminta, hanya AGENTS.md yang boleh diubah untuk keperluan update aturan/informasi.
+## Aturan Wajib Penulisan Kode (Berlaku untuk Keduanya)
+**Show diff & Minta Konfirmasi SEBELUM Menulis**: Sebelum mengeksekusi perubahan kode (via `write_to_file`, `replace_file_content`, dll), **WAJIB** TUNJUKKAN dahulu rincian spesifik perubahan yang akan dibuat dan di *file* mana. **LALU MINTA KONFIRMASI (Izin)** ke user. JANGAN PERNAH menulis kode ke *file* sumber tanpa persetujuan eksplisit.
 
 <!-- END:dual-ai-workflow -->
 
@@ -154,6 +150,7 @@ prisma/schema.prisma            # 6 models, 5 enums (Account/Session/Verificatio
 
 1. **Wajib Linting**: Setelah membuat perubahan kode yang signifikan, agen HARUS menjalankan `npm run lint` untuk memastikan tidak ada pelanggaran aturan TypeScript/ESLint.
 2. **Cek Build**: Sebelum menyatakan suatu fitur "selesai 100%", agen disarankan untuk menjalankan `npm run build` jika dirasa perlu, untuk memastikan tidak ada _error_ kompilasi di Next.js.
+3. **Panduan Testing Manual**: Agen WAJIB memberikan instruksi/panduan lengkap untuk *testing* manual (langkah demi langkah cara pengujian di UI/browser) kepada pengguna untuk memvalidasi hasil kerja *sebelum* agen diizinkan lanjut ke fase atau fitur selanjutnya.
 
 # Next.js App Router Strict Guidelines
 
