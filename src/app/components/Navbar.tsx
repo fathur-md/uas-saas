@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { logoutUser } from "@/app/actions/auth";
-import { LogOut, LayoutDashboard, LogIn } from "lucide-react";
+import { LogOut, LogIn } from "lucide-react";
 
 function getDashboardPath(role: string): string {
   switch (role) {

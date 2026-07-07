@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Droplets, Flame, Shirt } from "lucide-react";
 
 export default function HeroSection() {
   return (

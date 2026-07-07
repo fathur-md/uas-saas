@@ -8,7 +8,7 @@ export default function CustomerLayout({
   return (
     <div className="flex min-h-dvh bg-background">
       {/* Floating Sidebar untuk Desktop */}
-      <aside className="hidden md:flex w-64 flex-col justify-between py-6 pl-6 pr-3">
+      <aside className="hidden md:flex w-64 flex-col justify-between py-6 pl-6 pr-3 sticky top-0 h-screen self-start">
         <div className="flex-1 bg-white/50 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[2rem] flex flex-col overflow-hidden relative">
           {/* Latar Belakang Dekoratif Sidebar */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 blur-2xl rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" />

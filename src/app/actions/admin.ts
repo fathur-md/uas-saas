@@ -13,59 +13,81 @@ async function checkAdminAuth() {
 }
 
 export async function approveMerchant(merchantId: string) {
-  await checkAdminAuth();
-  
-  await prisma.merchantProfile.update({
-    where: { id: merchantId },
-    data: { isApproved: true },
-  });
-  
-  revalidatePath("/admin/merchants");
+  try {
+    await checkAdminAuth();
+    
+    await prisma.merchantProfile.update({
+      where: { id: merchantId },
+      data: { isApproved: true },
+    });
+    
+    revalidatePath("/admin/merchants");
+  } catch (error: any) {
+    throw new Error(error.message || "Gagal menyetujui merchant.");
+  }
 }
 
 export async function rejectMerchant(merchantId: string) {
-  await checkAdminAuth();
-  
-  // Soft-delete: tandai user sebagai terhapus agar bisa diregistrasi ulang
-  const merchant = await prisma.merchantProfile.findUnique({
-    where: { id: merchantId },
-    select: { userId: true }
-  });
-  
-  if (!merchant) return;
-  
-  await prisma.user.update({
-    where: { id: merchant.userId },
-    data: { deletedAt: new Date() },
-  });
-  
-  revalidatePath("/admin/merchants");
+  try {
+    await checkAdminAuth();
+    
+    // Soft-delete: tandai user sebagai terhapus agar bisa diregistrasi ulang
+    const merchant = await prisma.merchantProfile.findUnique({
+      where: { id: merchantId },
+      select: { userId: true }
+    });
+    
+    if (!merchant) throw new Error("Merchant tidak ditemukan.");
+    
+    await prisma.$transaction([
+      prisma.user.update({
+        where: { id: merchant.userId },
+        data: { deletedAt: new Date() },
+      }),
+      prisma.merchantProfile.update({
+        where: { id: merchantId },
+        data: { isOpen: false, isApproved: false },
+      }),
+    ]);
+    
+    revalidatePath("/admin/merchants");
+  } catch (error: any) {
+    throw new Error(error.message || "Gagal menolak merchant.");
+  }
 }
 
 export async function deleteUser(userId: string) {
-  await checkAdminAuth();
+  try {
+    await checkAdminAuth();
 
-  // Prevent admin from deleting themselves
-  const session = await auth();
-  if (session?.user?.id === userId) {
-    throw new Error("Tidak bisa menghapus akun sendiri.");
+    // Prevent admin from deleting themselves
+    const session = await auth();
+    if (session?.user?.id === userId) {
+      throw new Error("Tidak bisa menghapus akun sendiri.");
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { deletedAt: new Date() },
+    });
+
+    revalidatePath("/admin/users");
+  } catch (error: any) {
+    throw new Error(error.message || "Gagal menonaktifkan pengguna.");
   }
-
-  await prisma.user.update({
-    where: { id: userId },
-    data: { deletedAt: new Date() },
-  });
-
-  revalidatePath("/admin/users");
 }
 
 export async function restoreUser(userId: string) {
-  await checkAdminAuth();
+  try {
+    await checkAdminAuth();
 
-  await prisma.user.update({
-    where: { id: userId },
-    data: { deletedAt: null },
-  });
+    await prisma.user.update({
+      where: { id: userId },
+      data: { deletedAt: null },
+    });
 
-  revalidatePath("/admin/users");
+    revalidatePath("/admin/users");
+  } catch (error: any) {
+    throw new Error(error.message || "Gagal memulihkan pengguna.");
+  }
 }

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Package, ShoppingCart, User, LogOut, Store, Menu, X } from "lucide-react";
 import { logoutUser } from "@/app/actions/auth";
+import { getMerchantPlan } from "@/app/actions/merchant";
 
 export default function DashboardLayout({
   children,
@@ -13,6 +14,11 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [plan, setPlan] = useState<"FREE" | "PREMIUM" | null>(null);
+
+  useEffect(() => {
+    getMerchantPlan().then(setPlan);
+  }, []);
 
   const links = [
     { href: "/merchant/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -24,14 +30,14 @@ export default function DashboardLayout({
   return (
     <div className="flex min-h-dvh bg-[#fafafa]">
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex w-64 flex-col border-r border-neutral-light/50 bg-white justify-between shadow-sm z-10">
+      <aside className="hidden md:flex w-64 flex-col border-r border-neutral-light/50 bg-white justify-between shadow-sm z-10 sticky top-0 h-screen self-start">
         <div>
           <Link href="/merchant/dashboard" className="h-16 flex items-center px-6 border-b border-neutral-light/50 group cursor-pointer">
             <span className="font-bold text-lg text-primary tracking-tight flex items-center gap-2 group-hover:text-accent transition-colors">
               <div className="p-1 rounded-md bg-accent/10 group-hover:bg-accent/20 transition-colors">
                 <Store className="h-5 w-5 text-accent group-hover:scale-110 transition-transform" />
               </div>
-              SiapSedia <span className="font-normal text-neutral-dark">Pro</span>
+              SiapSedia <span className="font-normal text-neutral-dark">{plan === "PREMIUM" ? "Pro" : "Basic"}</span>
             </span>
           </Link>
           <nav className="flex flex-col gap-1 p-4">
@@ -78,7 +84,7 @@ export default function DashboardLayout({
           <div className="p-1.5 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
             <Store className="h-5 w-5 text-accent group-hover:scale-110 transition-transform" />
           </div>
-          <span className="group-hover:text-accent transition-colors">SiapSedia Pro</span>
+          <span className="group-hover:text-accent transition-colors">SiapSedia {plan === "PREMIUM" ? "Pro" : "Basic"}</span>
         </Link>
         <button
           onClick={() => setIsOpen(true)}

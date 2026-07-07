@@ -174,7 +174,7 @@ export default async function MerchantDashboard() {
             </span>
             {merchant.subscriptionStatus === "FREE" && merchant.monthlyOrderCount >= 8 && (
               <span className="flex items-center gap-1 text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200 text-xs">
-                ⚠️ Kuota Menipis
+                Kuota Menipis
               </span>
             )}
           </div>

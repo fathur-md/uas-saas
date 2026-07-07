@@ -100,7 +100,7 @@ export default function PaymentClient({
           <img 
             src={qrisImageUrl} 
             alt="QRIS Merchant" 
-            className="w-64 h-64 object-contain mx-auto bg-white rounded-lg p-2"
+            className="w-64 h-64 max-w-full object-contain mx-auto bg-white rounded-lg p-2"
           />
         </div>
 

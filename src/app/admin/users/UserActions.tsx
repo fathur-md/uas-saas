@@ -18,6 +18,27 @@ export default function UserActions({ userId, isDeleted, isSelf }: UserActionsPr
     return <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 italic">Anda</span>;
   }
 
+  const handleRestore = () => {
+    startTransition(async () => {
+      try {
+        await restoreUser(userId);
+      } catch (e: any) {
+        alert(e.message);
+      }
+    });
+  };
+
+  const handleDelete = () => {
+    if (!confirm("Yakin ingin menonaktifkan pengguna ini?")) return;
+    startTransition(async () => {
+      try {
+        await deleteUser(userId);
+      } catch (e: any) {
+        alert(e.message);
+      }
+    });
+  };
+
   return (
     <div className="flex gap-2 items-center">
       <Link href={`/admin/users/${userId}`} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
@@ -28,7 +49,7 @@ export default function UserActions({ userId, isDeleted, isSelf }: UserActionsPr
       {isDeleted ? (
         <button
           disabled={isPending}
-          onClick={() => startTransition(() => restoreUser(userId))}
+          onClick={handleRestore}
           className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors disabled:opacity-50 cursor-pointer"
         >
           <RotateCcw className="h-3.5 w-3.5" strokeWidth={2.5} />
@@ -37,11 +58,7 @@ export default function UserActions({ userId, isDeleted, isSelf }: UserActionsPr
       ) : (
         <button
           disabled={isPending}
-          onClick={() => {
-            if (confirm("Yakin ingin menonaktifkan pengguna ini?")) {
-              startTransition(() => deleteUser(userId));
-            }
-          }}
+          onClick={handleDelete}
           className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors disabled:opacity-50 cursor-pointer"
         >
           <Trash2 className="h-3.5 w-3.5" strokeWidth={2} />

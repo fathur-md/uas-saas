@@ -4,7 +4,7 @@ import { useActionState, useState } from "react";
 import { submitReview } from "@/app/actions/review";
 import { Star } from "lucide-react";
 
-export default function ReviewForm({ orderId, merchantId }: { orderId: string, merchantId: string }) {
+export default function ReviewForm({ orderId }: { orderId: string }) {
   const [rating, setRating] = useState(5);
   const [hoveredRating, setHoveredRating] = useState(0);
   
@@ -13,7 +13,7 @@ export default function ReviewForm({ orderId, merchantId }: { orderId: string, m
   if (state?.success) {
     return (
       <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
-        Terima kasih atas ulasan Anda! ⭐
+        Terima kasih atas ulasan Anda!
       </div>
     );
   }
@@ -30,7 +30,6 @@ export default function ReviewForm({ orderId, merchantId }: { orderId: string, m
 
       <form action={action}>
         <input type="hidden" name="orderId" value={orderId} />
-        <input type="hidden" name="merchantId" value={merchantId} />
         <input type="hidden" name="rating" value={rating} />
         
         <div className="flex gap-1 mb-3">

@@ -23,7 +23,7 @@ export async function createOrder(
     const notes = formData.get("notes") as string;
     const paymentMethod = formData.get("paymentMethod") as string;
     
-    if (!quantity || !shippingAddress || !paymentMethod) {
+    if (isNaN(quantity) || quantity < 1 || !shippingAddress || !paymentMethod) {
       return { error: "Mohon lengkapi semua kolom yang wajib." };
     }
     
@@ -99,6 +99,7 @@ export async function updateOrderStatus(
 
   } catch (error) {
     console.error("Gagal mengupdate pesanan:", error);
+    throw new Error("Gagal mengupdate pesanan, silakan coba lagi.");
   }
   
   revalidatePath("/merchant/orders");
@@ -126,7 +127,7 @@ export async function cancelOrder(orderId: string, formData?: FormData) {
     });
   } catch (error) {
     console.error("Gagal membatalkan pesanan:", error);
-    // Don't return an object, as form actions expect void | Promise<void>
+    throw new Error("Gagal membatalkan pesanan, silakan coba lagi.");
   }
 
   revalidatePath("/customer/orders");

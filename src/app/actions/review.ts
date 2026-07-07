@@ -13,11 +13,10 @@ export async function submitReview(prevState: any, formData: FormData) {
     
     const customerId = session.user.id;
     const orderId = formData.get("orderId") as string;
-    const merchantId = formData.get("merchantId") as string;
     const rating = parseInt(formData.get("rating") as string);
     const comment = formData.get("comment") as string;
     
-    if (!orderId || !merchantId || isNaN(rating) || rating < 1 || rating > 5) {
+    if (!orderId || isNaN(rating) || rating < 1 || rating > 5) {
       return { error: "Data ulasan tidak valid. Pastikan Anda memilih rating 1-5." };
     }
     
@@ -47,7 +46,7 @@ export async function submitReview(prevState: any, formData: FormData) {
       data: {
         orderId,
         customerId,
-        merchantId,
+        merchantId: order.merchantId,
         rating,
         comment: comment || null,
       }

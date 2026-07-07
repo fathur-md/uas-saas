@@ -194,7 +194,7 @@ export default async function CustomerOrdersPage() {
                   {/* Form Ulasan muncul jika pesanan sudah selesai dan belum direview */}
                   {order.status === "COMPLETED" && !order.review && (
                     <div className="mt-8">
-                      <ReviewForm orderId={order.id} merchantId={order.merchantId} />
+                      <ReviewForm orderId={order.id} />
                     </div>
                   )}
                   

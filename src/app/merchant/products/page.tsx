@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import AddProductForm from "./AddProductForm";
 import { deleteProduct, toggleProductStatus } from "@/app/actions/product";
+import { Package } from "lucide-react";
 import SubmitButton from "@/app/components/SubmitButton";
 
 export const metadata = {
@@ -64,7 +65,7 @@ export default async function MerchantProductsPage() {
         {products.length === 0 ? (
           <div className="p-12 text-center bg-white rounded-xl shadow-sm border border-neutral-light/50 flex flex-col items-center">
             <div className="h-12 w-12 rounded-full bg-neutral-100 flex items-center justify-center mb-3">
-              <span className="text-2xl">📦</span>
+              <Package className="h-6 w-6 text-neutral-dark/40" />
             </div>
             <p className="font-medium text-neutral-dark">Belum ada produk.</p>
             <p className="text-sm text-neutral-dark/60 mt-1">Gunakan formulir di atas untuk menambahkan produk pertama Anda.</p>
