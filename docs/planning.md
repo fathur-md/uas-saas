@@ -177,17 +177,17 @@ Customer pesan → Merchant terima/tolak → Diproses → Diantar → Selesai �
 
 ## 0.8 Batasan Scope (Yang TIDAK Dibuat)
 
-| # | Fitur | Alasan |
-|---|-------|--------|
-| 1 | ❌ Payment gateway (Midtrans, Xendit) | Sudah pakai QRIS statis |
-| 2 | ❌ Real-time GPS tracking pengiriman | Diganti Manual Status Tracking |
-| 3 | ❌ Real-time chat (customer ↔ merchant) | Dihapus untuk fokus ke alur utama transaksi MVP |
-| 4 | ❌ Push notification | Diganti dengan Cross-Invalidation Cache (Auto-Refresh Dasbor) |
-| 5 | ❌ Multi-bahasa (i18n) | Cukup Bahasa Indonesia |
-| 6 | ❌ Mobile app (native) / PWA | Akan dibangun sebagai PWA |
-| 7 | ❌ Sistem promo / kupon / diskon | Bukan fitur inti |
-| 8 | ❌ Auto-cancel pesanan (timeout) | Untuk MVP cukup manual |
-| 9 | ❌ Multiple alamat per customer | Cukup 1 alamat, bisa edit saat pesan |
+| # | Fitur | Alasan (Konteks Tugas Kuliah) |
+|---|-------|-------------------------------|
+| 1 | ❌ Payment gateway (Midtrans/Xendit) | Kompleksitas integrasi API dan _webhook_ membutuhkan waktu ekstra. Diganti dengan QRIS Statis Manual. |
+| 2 | ❌ Real-time GPS tracking pengiriman | Membutuhkan langganan API Maps dan terlalu rumit untuk batasan waktu UAS. Diganti Status Tracking Manual. |
+| 3 | ❌ Real-time chat (customer ↔ merchant) | Logika _websocket_ terlalu kompleks untuk skala tugas kuliah. Fokus dialihkan ke alur transaksi inti MVP. |
+| 4 | ❌ Push notification | Membutuhkan infrastruktur _Service Worker_ yang rumit. Diganti dengan _Cross-Invalidation Cache_. |
+| 5 | ❌ Multi-bahasa (i18n) | Menambah _overhead_ routing yang tidak relevan untuk kriteria penilaian UAS. Fokus murni Bahasa Indonesia. |
+| 6 | ❌ Mobile app (Native) / PWA | Konfigurasi _manifest_ dan _Service Worker_ PWA memakan waktu dan di luar esensi. Cukup Web Responsif. |
+| 7 | ❌ Sistem promo / kupon / diskon | Logika bisnis perhitungan kompleks dan rawan _bug_. Tidak wajib untuk membuktikan kelayakan sebuah purwarupa. |
+| 8 | ❌ Auto-cancel pesanan (CRON job) | Memerlukan _background worker_ di server yang sulit diimplementasikan pada arsitektur _Serverless_ gratis. |
+| 9 | ❌ Multiple alamat per customer | Desain struktur *database* tambahan memakan waktu eksekusi. Solusinya cukup 1 alamat yang dapat diedit bebas. |
 
 ---
 

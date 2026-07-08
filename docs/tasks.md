@@ -135,8 +135,8 @@
 > **Tujuan:** Deliverables siap dikumpulkan.
 > **Output:** PDF + video YouTube.
 
-- [ ] 5.1 — Buat dokumentasi PDF (gambaran program + URL)
-- [ ] 5.2 — Rekam video presentasi (maks 10 menit, tampilkan wajah)
+- [x] 5.1 — Buat dokumentasi PDF (gambaran program + URL)
+- [/] 5.2 — Rekam video presentasi (maks 10 menit, tampilkan wajah)
 - [ ] 5.3 — Upload video ke YouTube (unlisted)
 - [ ] 5.4 — Final check: semua ketentuan assignment terpenuhi ✓
 
@@ -192,6 +192,8 @@
   - **Alasan:** Next.js RSC menangkap _cache_ dengan sangat agresif. Tanpa invalidasi silang, Dasbor pesanan tidak akan ter-update secara _real-time_ kecuali Merchant me-refresh browser secara manual.
 - **Role-Based Auth via Middleware Edge**: Perlindungan rute diproses via JWT token dan dicegat di `proxy.ts` (Middleware).
   - **Alasan:** Mencegah eskalasi peretasan. Customer tidak akan bisa menyusup ke `/merchant` (lewat modifikasi URL) karena middleware langsung memblokirnya di _edge network_ sebelum halaman mulai diproses oleh server, meningkatkan keamanan ganda.
+- **Durasi Sesi Otentikasi (30 Hari)**: Menggunakan pengaturan _default_ JWT NextAuth selama 30 hari.
+  - **Alasan:** Menyesuaikan dengan tingkat risiko aplikasi yang tergolong rendah. Fokus utama ditekankan pada kenyamanan pengguna (UX) agar Merchant maupun Customer tidak perlu repot melakukan _login_ berulang kali setiap harinya, sehingga dapat meningkatkan kelancaran dan retensi transaksi.
 
 ---
 
