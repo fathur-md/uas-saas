@@ -188,6 +188,8 @@
 
 - **Teknologi Inti**: Next.js 16 (App Router), React 19, Tailwind v4, Prisma ORM, Neon Postgres Serverless.
   - **Alasan:** Merupakan standar industri paling mutakhir. Memungkinkan skalabilitas _fullstack_ tingkat tinggi (UI dan Backend tergabung) tanpa harus menyewa server Node/Express terpisah, sangat ideal untuk level kampus.
+- **Pemisahan Direktori Kode (Pola `src/app`)**: Menggunakan struktur `src/` alih-alih meletakkan direktori `app/` langsung di *root* proyek.
+  - **Alasan:** Menjaga agar _root_ proyek tetap bersih dan hanya difokuskan untuk file konfigurasi (`next.config.ts`, `.env`, `package.json`, dsb). Ini menjaga konsistensi dengan standar ekosistem React (seperti Vite/CRA) di mana semua kode aplikasi terpusat di dalam folder `src/`.
 - **Cross-Invalidation Cache (revalidatePath)**: Menyegarkan rute `/customer` ketika Merchant melakukan aksi status pesanan, dan sebaliknya.
   - **Alasan:** Next.js RSC menangkap _cache_ dengan sangat agresif. Tanpa invalidasi silang, Dasbor pesanan tidak akan ter-update secara _real-time_ kecuali Merchant me-refresh browser secara manual.
 - **Role-Based Auth via Middleware Edge**: Perlindungan rute diproses via JWT token dan dicegat di `proxy.ts` (Middleware).
