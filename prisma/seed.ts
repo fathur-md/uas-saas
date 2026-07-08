@@ -129,37 +129,9 @@ async function main() {
   });
   console.log(`✅ Merchant Free siap: ${freeMerchant.email}`);
 
-  // C. Merchant Baru (Menunggu Approval)
-  const pendingMerchant = await prisma.user.upsert({
-    where: { email: "pending@siapsedia.com" },
-    update: {},
-    create: {
-      email: "pending@siapsedia.com",
-      name: "Agus (Sembako Maju)",
-      password: commonPassword,
-      phoneNumber: "08333333333",
-      address: "Jl. Kebon Jeruk No. 10",
-      role: "MERCHANT",
-      merchantProfile: {
-        create: {
-          storeName: "Toko Sembako Maju",
-          area: "Jakarta Barat",
-          address: "Jl. Kebon Jeruk No. 10",
-          description: "Toko kelontong menyediakan gas dan air minum.",
-          isOpen: false, // Cannot open until approved
-          isApproved: false,
-          deliveryFee: 2000,
-          subscriptionStatus: SubscriptionStatus.FREE,
-          products: {
-            create: [
-              { name: "Gas 3Kg", category: ProductCategory.GAS, price: 21500, description: "Ready stock", isAvailable: true }
-            ]
-          }
-        }
-      }
-    }
-  });
-  console.log(`✅ Merchant Pending siap: ${pendingMerchant.email}`);
+  // C. Merchant Baru (Menunggu Approval) - DIHAPUS UNTUK VIDEO DEMO
+  // Agar tabel Persetujuan Mitra kosong, sehingga dosen bisa melihat langsung 
+  // kemunculan Merchant yang Anda daftarkan saat presentasi.
 
   // ---------------------------------------------------------
   // 3. SEED CUSTOMERS
