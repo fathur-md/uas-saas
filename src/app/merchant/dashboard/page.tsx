@@ -41,7 +41,11 @@ export default async function MerchantDashboard() {
       where: { merchantId: merchant.id, status: "PENDING" },
     }),
     prisma.order.findMany({
-      where: { merchantId: merchant.id, createdAt: { gte: startOfMonth } },
+      where: { 
+        merchantId: merchant.id, 
+        createdAt: { gte: startOfMonth },
+        status: "COMPLETED" 
+      },
       select: { totalAmount: true },
     }),
     prisma.order.findMany({

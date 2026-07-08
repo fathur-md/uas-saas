@@ -88,7 +88,7 @@ export default function OrderForm({
                         name="quantity" 
                         readOnly 
                         value={quantity} 
-                        className="w-16 text-center font-bold text-lg text-primary border-none focus:ring-0 bg-transparent" 
+                        className="w-16 text-center font-bold text-lg text-primary border-none focus:ring-0 bg-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
                       />
                       <button 
                         type="button" 
