@@ -50,7 +50,7 @@ Jika Anda ingin menjalankan proyek ini secara lokal, ikuti langkah berikut:
 ### 1. Kloning Repositori & Instalasi
 
 ```bash
-git clone https://github.com/[USERNAME_ANDA]/uas-saas.git
+git clone https://github.com/fathur-md/uas-saas.git
 cd uas-saas
 npm install
 ```
