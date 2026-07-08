@@ -68,7 +68,7 @@ export default async function AdminUsersPage(props: {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+        <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm flex flex-wrap items-center gap-4 hover:shadow-md transition-shadow">
           <div className="p-3 rounded-xl bg-blue-50/50">
             <Users className="h-6 w-6 text-blue-600" strokeWidth={2} />
           </div>
@@ -77,7 +77,7 @@ export default async function AdminUsersPage(props: {
             <p className="text-xs font-medium text-neutral-400 mt-1 uppercase tracking-wider truncate">Pengguna Aktif</p>
           </div>
         </div>
-        <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+        <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm flex flex-wrap items-center gap-4 hover:shadow-md transition-shadow">
           <div className="p-3 rounded-xl bg-emerald-50/50">
             <UserCheck className="h-6 w-6 text-emerald-600" strokeWidth={2} />
           </div>
@@ -86,7 +86,7 @@ export default async function AdminUsersPage(props: {
             <p className="text-xs font-medium text-neutral-400 mt-1 uppercase tracking-wider truncate">Hasil Filter</p>
           </div>
         </div>
-        <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+        <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm flex flex-wrap items-center gap-4 hover:shadow-md transition-shadow">
           <div className="p-3 rounded-xl bg-red-50/50">
             <UserX className="h-6 w-6 text-red-600" strokeWidth={2} />
           </div>
