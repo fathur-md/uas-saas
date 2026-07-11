@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "./components/Navbar";
 import "./globals.css";
@@ -41,13 +41,17 @@ export const metadata: Metadata = {
   }
 };
 
+export const viewport: Viewport = {
+  themeColor: "#0D9488"
+};
+
 export default function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="h-full antialiased" style={{ colorScheme: 'light' }}>
+    <html lang="id" className="h-full antialiased">
       <body className={`${inter.className} min-h-dvh flex flex-col`}>
         <ConditionalNavbar>
           <Navbar />
